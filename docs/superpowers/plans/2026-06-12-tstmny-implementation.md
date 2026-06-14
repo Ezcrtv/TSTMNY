@@ -6,7 +6,7 @@
 
 **Architecture:** Next.js App Router with statically generated pages (ISR). Sanity v3 serves as both the CMS and admin interface. Video embeds come from YouTube/Vimeo URLs stored in Sanity. API routes handle Stripe Checkout creation and Resend email delivery.
 
-**Tech Stack:** Next.js 14, Sanity v3, Tailwind CSS, Stripe, Resend, Vercel
+**Tech Stack:** Next.js 16, Sanity v3, Tailwind CSS, Stripe, Resend, Vercel
 
 ---
 
