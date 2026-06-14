@@ -6,7 +6,8 @@ export async function getSiteSettings() {
       heroHeadline,
       heroSubheading,
       ctaText,
-      ctaLink
+      ctaLink,
+      aboutContent
     }
   `)
 }
