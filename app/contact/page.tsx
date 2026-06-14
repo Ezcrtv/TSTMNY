@@ -1,3 +1,6 @@
+import ContactForm from '@/components/ContactForm'
+import SubmitTestimonyForm from '@/components/SubmitTestimonyForm'
+
 export default function ContactPage() {
   return (
     <main className="min-h-screen bg-[#fbf8ef] px-6 py-24 text-[#2a2a27]">
@@ -16,69 +19,8 @@ export default function ContactPage() {
         </p>
 
         <div className="mt-12 grid gap-8 md:grid-cols-2">
-          <form className="space-y-4 rounded-3xl border border-[#e6d7b8] bg-white/60 p-6">
-            <h2 className="text-2xl font-semibold">Contact us</h2>
-
-            <input
-              type="text"
-              placeholder="Your name"
-              className="w-full rounded-xl border border-[#e6d7b8] bg-[#fbf8ef] px-4 py-3 outline-none"
-            />
-
-            <input
-              type="email"
-              placeholder="Email address"
-              className="w-full rounded-xl border border-[#e6d7b8] bg-[#fbf8ef] px-4 py-3 outline-none"
-            />
-
-            <textarea
-              placeholder="Your message"
-              rows={5}
-              className="w-full rounded-xl border border-[#e6d7b8] bg-[#fbf8ef] px-4 py-3 outline-none"
-            />
-
-            <button
-              type="button"
-              className="rounded-full bg-[#2f3f34] px-6 py-3 text-sm font-semibold uppercase tracking-wide text-[#fbf8ef]"
-            >
-              Send Message
-            </button>
-          </form>
-
-          <form className="space-y-4 rounded-3xl border border-[#e6d7b8] bg-white/60 p-6">
-            <h2 className="text-2xl font-semibold">Share your testimony</h2>
-
-            <input
-              type="text"
-              placeholder="Your name"
-              className="w-full rounded-xl border border-[#e6d7b8] bg-[#fbf8ef] px-4 py-3 outline-none"
-            />
-
-            <input
-              type="email"
-              placeholder="Email address"
-              className="w-full rounded-xl border border-[#e6d7b8] bg-[#fbf8ef] px-4 py-3 outline-none"
-            />
-
-            <textarea
-              placeholder="Your testimony"
-              rows={6}
-              className="w-full rounded-xl border border-[#e6d7b8] bg-[#fbf8ef] px-4 py-3 outline-none"
-            />
-
-            <input
-              type="url"
-              placeholder="Video URL optional"
-              className="w-full rounded-xl border border-[#e6d7b8] bg-[#fbf8ef] px-4 py-3 outline-none"
-            />
-
-            <button
-              type="button"
-              className="rounded-full bg-[#2f3f34] px-6 py-3 text-sm font-semibold uppercase tracking-wide text-[#fbf8ef]"
-            >
-              Submit Testimony
-            </button>
-          </form>
+          <ContactForm />
+          <SubmitTestimonyForm />
         </div>
       </section>
     </main>
