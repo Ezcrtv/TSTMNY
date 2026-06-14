@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a public-facing video testimony platform with Next.js 14, Sanity v3 CMS, Stripe donations, and Resend email.
+**Goal:** Build a public-facing video testimony platform with Next.js 16, Sanity v3 CMS, Stripe donations, and Resend email.
 
 **Architecture:** Next.js App Router with statically generated pages (ISR). Sanity v3 serves as both the CMS and admin interface. Video embeds come from YouTube/Vimeo URLs stored in Sanity. API routes handle Stripe Checkout creation and Resend email delivery.
 
