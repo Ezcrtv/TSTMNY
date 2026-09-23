@@ -40,7 +40,7 @@ test('falls back gracefully on sparse documents', () => {
   assert.equal(story.excerpt, 'Legacy')
   assert.equal(story.name, 'Unnamed')
   assert.equal(story.video, undefined)
-  assert.equal(story.image.src, '/images/stories/placeholder.jpg')
+  assert.equal(story.image.src, '/images/stories/placeholder.svg')
   assert.equal(story.date, '2026-01-05')
 })
 

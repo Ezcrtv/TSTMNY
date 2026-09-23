@@ -1,7 +1,7 @@
 import type { Story, StoryBlock, Theme } from './types.ts'
 import { isTheme } from './themes.ts'
 
-export const FALLBACK_IMAGE = '/images/stories/placeholder.jpg'
+export const FALLBACK_IMAGE = '/images/stories/placeholder.svg'
 
 type PortableBlock = {
   _type?: string

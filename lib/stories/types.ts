@@ -18,6 +18,8 @@ export type StoryBlock =
 export type StoryImage = {
   src: string
   alt: string
+  /** CSS object-position, used to keep the subject in frame when cropped. */
+  position?: string
 }
 
 export type StoryVideo = {
