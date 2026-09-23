@@ -1,28 +1,37 @@
-import ContactForm from '@/components/ContactForm'
-import SubmitTestimonyForm from '@/components/SubmitTestimonyForm'
+import type { Metadata } from 'next'
+import PageHead from '@/components/sections/PageHead'
+import ContactForm from '@/components/forms/ContactForm'
+import { CONTACT_REASONS, type ContactReason } from '@/lib/forms/contact'
 
-export default function ContactPage() {
+export const metadata: Metadata = {
+  title: 'Contact',
+  description: 'Share your testimony, ask about partnerships or media, or just say hello to the TSTMNY team.',
+  alternates: { canonical: '/contact' },
+}
+
+type Props = { searchParams: Promise<{ reason?: string | string[] }> }
+
+export default async function ContactPage({ searchParams }: Props) {
+  const { reason } = await searchParams
+  const initialReason = CONTACT_REASONS.find((r) => r.value === reason)?.value as ContactReason | undefined
+
   return (
-    <main className="min-h-screen bg-[#fbf8ef] px-6 py-24 text-[#2a2a27]">
-      <section className="mx-auto max-w-5xl">
-        <p className="mb-4 text-sm uppercase tracking-[0.3em] text-[#a57865]">
-          Contact
-        </p>
-
-        <h1 className="text-4xl font-semibold md:text-6xl">
-          Get in touch.
-        </h1>
-
-        <p className="mt-6 max-w-2xl text-lg leading-8 text-[#2a2a27]/70">
-          Have a question, want to connect, or feel called to share your testimony?
-          Send us a message below.
-        </p>
-
-        <div className="mt-12 grid gap-8 md:grid-cols-2">
-          <ContactForm />
-          <SubmitTestimonyForm />
+    <>
+      <PageHead
+        eyebrow="Contact"
+        title="Have a story worth telling?"
+        aside={<p>Or a question, an idea, a partnership. Write to us — a real person reads every message.</p>}
+      />
+      <section className="container" style={{ paddingBottom: 'var(--section)' }}>
+        <div className="split">
+          <div className="split__label">
+            <p className="eyebrow">Write to us</p>
+          </div>
+          <div className="split__body--narrow split__body">
+            <ContactForm key={initialReason} initialReason={initialReason} />
+          </div>
         </div>
       </section>
-    </main>
+    </>
   )
 }

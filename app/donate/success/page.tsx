@@ -1,28 +1,30 @@
-import Link from 'next/link'
+import type { Metadata } from 'next'
+import ArrowLink from '@/components/ui/ArrowLink'
+
+export const metadata: Metadata = {
+  title: 'Thank you',
+  robots: { index: false },
+}
 
 export default function DonateSuccessPage() {
   return (
-    <main className="min-h-screen bg-[#fbf8ef] px-6 py-24 text-[#2a2a27]">
-      <section className="mx-auto max-w-xl text-center">
-        <p className="mb-4 text-sm uppercase tracking-[0.3em] text-[#a57865]">
-          Thank You
-        </p>
-
-        <h1 className="text-4xl font-semibold md:text-6xl">
-          Donation received.
-        </h1>
-
-        <p className="mt-6 text-lg leading-8 text-[#2a2a27]/70">
-          Thank you for supporting TSTMNY and helping share real stories of faith.
-        </p>
-
-        <Link
-          href="/testimonies"
-          className="mt-10 inline-block rounded-full bg-[#2f3f34] px-8 py-4 text-sm font-semibold uppercase tracking-wide text-[#fbf8ef]"
-        >
-          Watch Testimonies
-        </Link>
-      </section>
-    </main>
+    <section className="container page-head" style={{ minHeight: '80svh' }}>
+      <p className="eyebrow fade-in">Thank you</p>
+      <h1 className="t-h1" style={{ marginTop: 'var(--space-5)', maxWidth: '16ch' }}>
+        <span className="rise">
+          <span>Your gift helps the next story get told.</span>
+        </span>
+      </h1>
+      <p className="t-body-lg muted prose fade-in" style={{ marginTop: 'var(--space-6)' }}>
+        A receipt is on its way to your inbox from Stripe. While you’re here, sit with one of the stories you just
+        helped make possible.
+      </p>
+      <div style={{ marginTop: 'var(--space-7)', display: 'flex', flexWrap: 'wrap', gap: 'var(--space-5)', alignItems: 'center' }}>
+        <ArrowLink href="/testimony" variant="primary">
+          Read a story
+        </ArrowLink>
+        <ArrowLink href="/">Back home</ArrowLink>
+      </div>
+    </section>
   )
 }

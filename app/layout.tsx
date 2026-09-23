@@ -1,39 +1,74 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
-import "./globals.css";
+import type { Metadata, Viewport } from 'next'
+import { Instrument_Serif, Mona_Sans } from 'next/font/google'
+import Nav from '@/components/layout/Nav'
+import Footer from '@/components/layout/Footer'
+import JsonLd from '@/components/seo/JsonLd'
+import { absoluteUrl, site } from '@/lib/site'
+import './globals.css'
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const serif = Instrument_Serif({
+  weight: '400',
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  variable: '--font-instrument-serif',
+  display: 'swap',
+})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const sans = Mona_Sans({
+  subsets: ['latin'],
+  axes: ['wdth'],
+  variable: '--font-mona-sans',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  title: "TSTMNY",
-  description: "Every testimony continues the cycle.",
-};
+  metadataBase: new URL(site.url),
+  title: {
+    default: `${site.name} — ${site.tagline}`,
+    template: `%s — ${site.name}`,
+  },
+  description: site.description,
+  openGraph: {
+    type: 'website',
+    siteName: site.name,
+    locale: site.locale,
+    images: [{ url: site.ogImage, width: 1600, height: 1200 }],
+  },
+  twitter: { card: 'summary_large_image' },
+  alternates: { canonical: '/' },
+}
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  themeColor: '#ede7da',
+}
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
+    <html lang="en" className={`${serif.variable} ${sans.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Enables reveal-on-scroll styles only when JS runs, so content is never hidden without it. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
+      <body>
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
+        <JsonLd
+          data={{
+            '@context': 'https://schema.org',
+            '@type': 'NGO',
+            name: site.name,
+            url: absoluteUrl('/'),
+            description: site.description,
+            foundingDate: site.founded,
+          }}
+        />
         <Nav />
-        <div className="flex-1">{children}</div>
+        <main id="main" tabIndex={-1} style={{ outline: 'none' }}>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
-  );
+  )
 }

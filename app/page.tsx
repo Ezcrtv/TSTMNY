@@ -1,113 +1,166 @@
-import Link from 'next/link'
-import {
-  getFeaturedTestimony,
-  getRecentTestimonies,
-  getSiteSettings,
-} from '@/lib/sanity'
+import type { CSSProperties } from 'react'
+import ArrowLink from '@/components/ui/ArrowLink'
+import Reveal from '@/components/ui/Reveal'
+import SectionLabel from '@/components/ui/SectionLabel'
+import StoryTile from '@/components/story/StoryTile'
+import StoryIndex from '@/components/story/StoryIndex'
+import PullQuote from '@/components/story/PullQuote'
+import VideoFacade from '@/components/media/VideoFacade'
+import CtaTriad from '@/components/sections/CtaTriad'
+import { getFeaturedStories, getStories } from '@/lib/stories/repository'
+import { featuredFilm, site } from '@/lib/site'
 
 export default async function Home() {
-  const [settings, featured, recent] = await Promise.all([
-    getSiteSettings(),
-    getFeaturedTestimony(),
-    getRecentTestimonies(),
-  ])
+  const [featured, stories] = await Promise.all([getFeaturedStories(2), getStories()])
+  const quoteStory = stories.find((s) => s.quote && !featured.includes(s)) ?? stories[0]
 
   return (
-    <main className="min-h-screen bg-[#fbf8ef] text-[#2a2a27]">
-      <section className="mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-6 text-center">
-        <p className="mb-6 text-sm uppercase tracking-[0.35em] text-[#a57865]">
-          TSTMNY
+    <>
+      {/* Hero */}
+      <section className="hero container" aria-labelledby="hero-title">
+        <p className="hero__meta-top t-meta fade-in">
+          <span>A storytelling archive</span>
+          <span className="muted">Est. {site.founded}</span>
         </p>
 
-        <h1 className="max-w-4xl text-5xl font-semibold leading-tight md:text-7xl">
-          {settings?.heroHeadline ?? 'Every testimony continues the cycle.'}
+        <div className="hero__lede">
+          <p className="t-statement fade-in" style={{ '--fade-delay': '350ms' } as CSSProperties}>
+            Stories of faith, discipline, and <em>the moments nobody sees.</em>
+          </p>
+          <p className="t-body muted fade-in" style={{ '--fade-delay': '550ms', maxWidth: '26rem' } as CSSProperties}>
+            Real testimony from athletes — told from outside the frame of the match.
+          </p>
+        </div>
+
+        <h1 id="hero-title" className="t-wordmark hero__wordmark">
+          <span className="rise">
+            <span>{site.name}</span>
+          </span>
         </h1>
 
-        <p className="mt-8 max-w-2xl text-xl leading-8 text-[#2f3f34]">
-          {settings?.heroSubheading ?? 'Faith. Discipline. Movement.'}
+        <p className="hero__meta-bottom t-meta muted fade-in" style={{ '--fade-delay': '800ms' } as CSSProperties}>
+          <span>Faith · Discipline · Identity · Purpose</span>
+          <span aria-hidden="true">Scroll</span>
         </p>
-
-        <Link
-          href={settings?.ctaLink ?? '/testimonies'}
-          className="mt-12 rounded-full bg-[#2f3f34] px-8 py-4 text-sm font-semibold uppercase tracking-wide text-[#fbf8ef] transition hover:opacity-90"
-        >
-          {settings?.ctaText ?? 'Watch Testimonies'}
-        </Link>
       </section>
 
-      {featured && (
-        <section className="mx-auto max-w-5xl px-6 pb-24">
-          <p className="mb-4 text-sm uppercase tracking-[0.3em] text-[#a57865]">
-            Featured Testimony
-          </p>
+      {/* The moments nobody sees */}
+      <section className="container section" aria-labelledby="intro-title">
+        <div className="split">
+          <div className="split__label">
+            <SectionLabel index="01">Pull up a chair</SectionLabel>
+          </div>
+          <div className="split__body stack-6">
+            <Reveal as="h2" id="intro-title" className="t-statement">
+              Behind every hard-fought ninety minutes is a quiet morning of prayer you’ll never see on television.
+              <span className="muted"> We’re here for those mornings.</span>
+            </Reveal>
+          </div>
+        </div>
+      </section>
 
-          <Link
-            href={`/testimonies/${featured.slug.current}`}
-            className="block rounded-3xl bg-[#2f3f34] p-8 text-[#fbf8ef] transition hover:opacity-95 md:p-12"
-          >
-            <p className="text-sm uppercase tracking-wide text-[#e6d7b8]">
-              {featured.category}
-            </p>
+      {/* Featured stories */}
+      <section aria-labelledby="featured-title" style={{ paddingBottom: 'var(--section)' }}>
+        <div className="container section-head">
+          <h2 id="featured-title" className="eyebrow">
+            Featured stories
+          </h2>
+          <ArrowLink href="/testimony">Explore all stories</ArrowLink>
+        </div>
+        <div className="container">
+          <div className="tiles tiles--2">
+            {featured.map((story, i) => (
+              <StoryTile key={story.slug} story={story} priority={i === 0} />
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <h2 className="mt-4 text-3xl font-semibold md:text-5xl">
-              {featured.title}
-            </h2>
-
-            <p className="mt-4 text-lg text-[#e6d7b8]">
-              {featured.person?.name}
-            </p>
-
-            {featured.shortDescription && (
-              <p className="mt-8 max-w-2xl text-xl leading-8 text-[#fbf8ef]/80">
-                {featured.shortDescription}
+      {/* Why */}
+      <section className="theme-dark section" aria-labelledby="why-title">
+        <div className="container split">
+          <div className="split__label">
+            <SectionLabel index="02">Why we exist</SectionLabel>
+          </div>
+          <div className="split__body stack-7">
+            <Reveal as="h2" id="why-title" className="t-h1">
+              The scoreboard tells you what happened. It rarely tells you why.
+            </Reveal>
+            <Reveal className="two-col t-body-lg muted" delay={120}>
+              <p>
+                Athletes are photographed at their loudest moments — the goal, the trophy, the celebration. The parts
+                that shaped them happen somewhere else: early mornings, injuries, doubt, prayer, family, the long drive
+                home.
               </p>
-            )}
-          </Link>
+              <p>
+                {site.name} is a nonprofit home for those stories. We film them, write them down, and keep them in one
+                calm place — so someone who needs to hear one can find it.
+              </p>
+            </Reveal>
+            <ArrowLink href="/about">Read our vision</ArrowLink>
+          </div>
+        </div>
+      </section>
+
+      {/* Pull quote */}
+      {quoteStory && (
+        <section className="theme-surface section" aria-label="From the archive">
+          <div className="container split">
+            <div className="split__label">
+              <SectionLabel index="03">In their words</SectionLabel>
+            </div>
+            <div className="split__body--narrow split__body stack-6">
+              <PullQuote
+                quote={quoteStory.quote}
+                name={quoteStory.name}
+                detail={`${quoteStory.sport}${quoteStory.placeholder ? ' · Sample story' : ''}`}
+              />
+              <ArrowLink href={`/testimony/${quoteStory.slug}`}>Read the story</ArrowLink>
+            </div>
+          </div>
         </section>
       )}
 
-      <section className="mx-auto max-w-5xl px-6 pb-24">
-        <div className="mb-8 flex items-end justify-between gap-6">
-          <div>
-            <p className="mb-3 text-sm uppercase tracking-[0.3em] text-[#a57865]">
-              Recent
+      {/* Film */}
+      <section className="theme-dark section" aria-labelledby="film-title">
+        <div className="container stack-6">
+          <div className="section-head" style={{ paddingInline: 0 }}>
+            <h2 id="film-title" className="eyebrow">
+              04 — Film
+            </h2>
+            <p className="t-caption muted" style={{ maxWidth: '28rem' }}>
+              {featuredFilm.caption}
             </p>
-            <h2 className="text-3xl font-semibold">Latest testimonies</h2>
           </div>
-
-          <Link href="/testimonies" className="text-sm font-semibold text-[#2f3f34]">
-            View all →
-          </Link>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-3">
-          {recent.map((testimony: any) => (
-            <Link
-              key={testimony._id}
-              href={`/testimonies/${testimony.slug.current}`}
-              className="rounded-2xl border border-[#e6d7b8] bg-white/60 p-6 transition hover:bg-white"
-            >
-              <p className="text-sm uppercase tracking-wide text-[#a57865]">
-                {testimony.category}
-              </p>
-
-              <h3 className="mt-3 text-2xl font-semibold">
-                {testimony.title}
-              </h3>
-
-              <p className="mt-2 text-[#2f3f34]">
-                {testimony.person?.name}
-              </p>
-
-              {testimony.shortDescription && (
-                <p className="mt-4 text-[#2a2a27]/70">
-                  {testimony.shortDescription}
-                </p>
-              )}
-            </Link>
-          ))}
+          <Reveal variant="media">
+            <VideoFacade
+              url={featuredFilm.url}
+              poster={featuredFilm.poster}
+              posterAlt={featuredFilm.posterAlt}
+              title={featuredFilm.title}
+              label={featuredFilm.title}
+            />
+          </Reveal>
         </div>
       </section>
-    </main>
+
+      {/* Archive index */}
+      <section className="container section" aria-labelledby="index-title">
+        <div className="split">
+          <div className="split__label stack-4">
+            <SectionLabel index="05">The archive</SectionLabel>
+            <h2 id="index-title" className="t-h3">
+              Every story, in one quiet place.
+            </h2>
+          </div>
+          <div className="split__body stack-6">
+            <StoryIndex stories={stories.slice(0, 6)} caption="Recent stories in the archive" />
+            <ArrowLink href="/testimony">Browse the archive</ArrowLink>
+          </div>
+        </div>
+      </section>
+
+      <CtaTriad />
+    </>
   )
 }
