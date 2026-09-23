@@ -140,12 +140,27 @@ export default async function StoryPage({ params }: Props) {
       <section className="container section" aria-label="Story">
         <div className="story-layout">
           <aside className="story-layout__aside stack-5" aria-label="About this story">
-            <p className="eyebrow">In their words</p>
-            {story.quote && <p className="serif" style={{ fontSize: 'var(--text-h3)', lineHeight: 1.15 }}>“{story.quote}”</p>}
-            <p className="t-caption muted">
-              {story.name}
-              {story.sport && `, ${story.sport}`}
-            </p>
+            <div className="stack-4">
+              <p className="eyebrow">Told by</p>
+              <p className="serif" style={{ fontSize: 'var(--text-h3)', lineHeight: 1.1 }}>
+                {story.name}
+              </p>
+              <p className="t-caption muted">{[story.sport, story.location].filter(Boolean).join(' · ')}</p>
+            </div>
+            {story.categories.length > 0 && (
+              <div className="stack-4">
+                <p className="eyebrow">Themes</p>
+                <ul style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
+                  {story.categories.map((c) => (
+                    <li key={c}>
+                      <Link href={`/testimony?theme=${c}`} className="tag">
+                        {THEME_LABELS[c]}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {story.placeholder && (
               <p className="t-caption muted">
                 This is a fictional sample used to preview the layout. Real testimony will replace it.

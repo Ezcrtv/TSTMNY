@@ -102,7 +102,7 @@ export const placeholderStories: Story[] = [
     image: {
       src: '/images/stories/story-02.jpg',
       alt: 'A smiling player in a sky-blue shirt stands in front of a dark blue curtain.',
-      position: '55% 25%',
+      position: '45% 25%',
     },
     categories: ['identity', 'purpose'],
     date: '2026-05-09',
@@ -128,7 +128,7 @@ export const placeholderStories: Story[] = [
     image: {
       src: '/images/stories/story-05.jpg',
       alt: 'A former player in a white sweater sits in a dressing room, shirts hanging on the wall behind him.',
-      position: '30% 40%',
+      position: '50% 35%',
     },
     categories: ['purpose', 'identity', 'failure'],
     date: '2026-03-27',

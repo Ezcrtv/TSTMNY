@@ -39,7 +39,7 @@ export default async function Home() {
         </h1>
 
         <p className="hero__meta-bottom t-meta muted fade-in" style={{ '--fade-delay': '800ms' } as CSSProperties}>
-          <span>Faith · Discipline · Identity · Purpose</span>
+          <span>Faith · Discipline · Identity</span>
           <span aria-hidden="true">Scroll</span>
         </p>
       </section>

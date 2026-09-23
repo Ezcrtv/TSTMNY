@@ -36,8 +36,8 @@ export const featuredFilm = {
   caption: 'A short documentary on the hours athletes spend alone before a match.',
   runtime: '',
   url: '',
-  poster: '/images/stories/story-05.jpg',
-  posterAlt: 'A former player sits in an empty dressing room, shirts hanging on the wall behind him.',
+  poster: '/images/stories/story-01.jpg',
+  posterAlt: 'A bearded man in dark-rimmed glasses listens with a serious expression.',
 }
 
 export function absoluteUrl(path = '/') {
