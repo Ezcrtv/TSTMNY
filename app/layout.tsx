@@ -1,18 +1,10 @@
 import type { Metadata, Viewport } from 'next'
-import { Instrument_Serif, Mona_Sans } from 'next/font/google'
+import { Mona_Sans } from 'next/font/google'
 import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
 import JsonLd from '@/components/seo/JsonLd'
 import { absoluteUrl, site } from '@/lib/site'
 import './globals.css'
-
-const serif = Instrument_Serif({
-  weight: '400',
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  variable: '--font-instrument-serif',
-  display: 'swap',
-})
 
 const sans = Mona_Sans({
   subsets: ['latin'],
@@ -39,12 +31,12 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#ede7da',
+  themeColor: '#cfc3a8',
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable}`} suppressHydrationWarning>
+    <html lang="en" className={sans.variable} suppressHydrationWarning>
       <head>
         {/* Enables reveal-on-scroll styles only when JS runs, so content is never hidden without it. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />

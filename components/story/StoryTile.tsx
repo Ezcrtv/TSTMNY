@@ -6,13 +6,13 @@ import type { Story } from '@/lib/stories/types'
 
 type Props = {
   story: Story
-  ratio?: 'portrait' | 'landscape' | 'cinema'
+  ratio?: 'portrait' | 'tall' | 'landscape' | 'cinema' | 'square'
   sizes?: string
   priority?: boolean
   headingLevel?: 'h2' | 'h3'
 }
 
-/** Full-bleed image tile with the title laid over the bottom-left and athlete details on the right. */
+/** Full-bleed image tile: athlete name bottom-left, one-line story title bottom-right. */
 export default function StoryTile({
   story,
   ratio = 'portrait',
@@ -23,17 +23,13 @@ export default function StoryTile({
   return (
     <Link href={`/testimony/${story.slug}`} className="tile hover-zoom">
       <Reveal variant="media" className={`media media--${ratio}`}>
-        <StoryImage image={story.image} sizes={sizes} priority={priority} />
+        <StoryImage image={story.image} sizes={sizes} priority={priority} decorative />
       </Reveal>
       <span className="tile__shade" aria-hidden="true" />
       {story.placeholder && <SampleTag className="tile__sample" />}
       <span className="tile__caption">
-        <Heading className="tile__title">{story.title}</Heading>
-        <span className="tile__meta">
-          {story.name}
-          <br />
-          <span className="muted-on-image">{story.sport}{story.location ? ` · ${story.location}` : ''}</span>
-        </span>
+        <Heading className="tile__title">{story.name}</Heading>
+        <span className="tile__meta">{story.title}</span>
       </span>
     </Link>
   )

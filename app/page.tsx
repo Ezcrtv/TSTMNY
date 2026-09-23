@@ -1,166 +1,134 @@
-import type { CSSProperties } from 'react'
-import ArrowLink from '@/components/ui/ArrowLink'
+import fs from 'node:fs'
+import path from 'node:path'
+import Image from 'next/image'
 import Reveal from '@/components/ui/Reveal'
-import SectionLabel from '@/components/ui/SectionLabel'
 import StoryTile from '@/components/story/StoryTile'
-import StoryIndex from '@/components/story/StoryIndex'
-import PullQuote from '@/components/story/PullQuote'
-import VideoFacade from '@/components/media/VideoFacade'
-import CtaTriad from '@/components/sections/CtaTriad'
-import { getFeaturedStories, getStories } from '@/lib/stories/repository'
-import { featuredFilm, site } from '@/lib/site'
+import TestimonialList from '@/components/story/TestimonialList'
+import ImageLink from '@/components/sections/ImageLink'
+import { getStories } from '@/lib/stories/repository'
+import { allTestimoniesImage, site } from '@/lib/site'
+import type { Story } from '@/lib/stories/types'
+
+/**
+ * Optional full-bleed interlude image (e.g. an empty pitch). Drop a file at
+ * public/images/home/field.jpg and the section appears; until then it's skipped.
+ */
+const FIELD_IMAGE = '/images/home/field.jpg'
+const hasFieldImage = fs.existsSync(path.join(process.cwd(), 'public', FIELD_IMAGE))
+
+/** Tile rhythm from the reference: two, one wide, two. */
+function layout(stories: Story[]) {
+  return stories.slice(0, 5).map((story, i) => ({
+    story,
+    wide: i === 2,
+  }))
+}
 
 export default async function Home() {
-  const [featured, stories] = await Promise.all([getFeaturedStories(2), getStories()])
-  const quoteStory = stories.find((s) => s.quote && !featured.includes(s)) ?? stories[0]
+  const stories = await getStories()
+  const tiles = layout(stories)
+  const quoted = stories.filter((s) => s.quote).slice(0, 4)
 
   return (
     <>
       {/* Hero */}
       <section className="hero container" aria-labelledby="hero-title">
-        <p className="hero__meta-top t-meta fade-in">
-          <span>A storytelling archive</span>
-          <span className="muted">Est. {site.founded}</span>
-        </p>
-
-        <div className="hero__lede">
-          <p className="t-statement fade-in" style={{ '--fade-delay': '350ms' } as CSSProperties}>
-            Stories of faith, discipline, and <em>the moments nobody sees.</em>
+        <div className="hero__block">
+          <h1 id="hero-title" className="t-wordmark hero__wordmark">
+            <span className="rise">
+              <span>{site.name}</span>
+            </span>
+          </h1>
+          <p className="hero__intro t-caption fade-in" style={{ '--fade-delay': '400ms' } as React.CSSProperties}>
+            {site.intro}
           </p>
-          <p className="t-body muted fade-in" style={{ '--fade-delay': '550ms', maxWidth: '26rem' } as CSSProperties}>
-            Real testimony from athletes — told from outside the frame of the match.
-          </p>
-        </div>
-
-        <h1 id="hero-title" className="t-wordmark hero__wordmark">
-          <span className="rise">
-            <span>{site.name}</span>
-          </span>
-        </h1>
-
-        <p className="hero__meta-bottom t-meta muted fade-in" style={{ '--fade-delay': '800ms' } as CSSProperties}>
-          <span>Faith · Discipline · Identity</span>
-          <span aria-hidden="true">Scroll</span>
-        </p>
-      </section>
-
-      {/* The moments nobody sees */}
-      <section className="container section" aria-labelledby="intro-title">
-        <div className="split">
-          <div className="split__label">
-            <SectionLabel index="01">Pull up a chair</SectionLabel>
-          </div>
-          <div className="split__body stack-6">
-            <Reveal as="h2" id="intro-title" className="t-statement">
-              Behind every hard-fought ninety minutes is a quiet morning of prayer you’ll never see on television.
-              <span className="muted"> We’re here for those mornings.</span>
-            </Reveal>
-          </div>
         </div>
       </section>
 
-      {/* Featured stories */}
-      <section aria-labelledby="featured-title" style={{ paddingBottom: 'var(--section)' }}>
+      {/* Stories */}
+      <section aria-labelledby="works-title">
         <div className="container section-head">
-          <h2 id="featured-title" className="eyebrow">
-            Featured stories
+          <h2 id="works-title" className="t-caption">
+            Based in {site.basedIn}
           </h2>
-          <ArrowLink href="/testimony">Explore all stories</ArrowLink>
+          <span className="t-caption" aria-hidden="true">
+            ↓
+          </span>
         </div>
         <div className="container">
           <div className="tiles tiles--2">
-            {featured.map((story, i) => (
-              <StoryTile key={story.slug} story={story} priority={i === 0} />
+            {tiles.map(({ story, wide }, i) => (
+              <div key={story.slug} className={wide ? 'tiles__full' : undefined}>
+                <StoryTile
+                  story={story}
+                  ratio={wide ? 'landscape' : 'tall'}
+                  sizes={wide ? '100vw' : '(min-width: 768px) 50vw, 100vw'}
+                  priority={i < 2}
+                />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why */}
-      <section className="theme-dark section" aria-labelledby="why-title">
-        <div className="container split">
+      {/* About */}
+      <section className="container section" aria-labelledby="about-title">
+        <div className="split">
           <div className="split__label">
-            <SectionLabel index="02">Why we exist</SectionLabel>
+            <h2 id="about-title" className="t-meta">
+              About
+            </h2>
           </div>
-          <div className="split__body stack-7">
-            <Reveal as="h2" id="why-title" className="t-h1">
-              The scoreboard tells you what happened. It rarely tells you why.
-            </Reveal>
-            <Reveal className="two-col t-body-lg muted" delay={120}>
+          <div className="split__body--half split__body stack-7">
+            <Reveal className="about-statement stack-5">
               <p>
-                Athletes are photographed at their loudest moments — the goal, the trophy, the celebration. The parts
-                that shaped them happen somewhere else: early mornings, injuries, doubt, prayer, family, the long drive
-                home.
+                <strong>{site.name}</strong> was founded with one singular, unwavering mission:{' '}
+                <strong>to share authentic, powerful testimonies that point people directly to Jesus Christ.</strong>
               </p>
               <p>
-                {site.name} is a nonprofit home for those stories. We film them, write them down, and keep them in one
-                calm place — so someone who needs to hear one can find it.
+                We believe that a personal story of faith is one of the most undeniable forces on earth. Because of
+                this, every testimony we produce and share is offered <strong>completely free</strong> — to the people
+                who trust us to film their stories, and to everyone watching around the world.
               </p>
             </Reveal>
-            <ArrowLink href="/about">Read our vision</ArrowLink>
+            <Reveal variant="media" className="media media--portrait about-image">
+              <Image
+                src="/images/stories/story-06.jpg"
+                alt="A goalkeeper kneels on the pitch with his gloved hands open in prayer."
+                fill
+                sizes="(min-width: 1024px) 20vw, 50vw"
+              />
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* Pull quote */}
-      {quoteStory && (
-        <section className="theme-surface section" aria-label="From the archive">
-          <div className="container split">
-            <div className="split__label">
-              <SectionLabel index="03">In their words</SectionLabel>
+      {hasFieldImage && (
+        <Reveal variant="media" className="media media--cinema">
+          <Image src={FIELD_IMAGE} alt="" fill sizes="100vw" />
+        </Reveal>
+      )}
+
+      {/* Written testimonials */}
+      {quoted.length > 0 && (
+        <section className="container section" aria-labelledby="written-title">
+          <div className="split">
+            <div className="split__label stack-4">
+              <h2 id="written-title" className="t-meta">
+                Written testimonials
+              </h2>
+              <p className="t-caption muted" style={{ maxWidth: '20rem' }}>
+                In their own words — short reflections from athletes on faith, doubt, and what carried them.
+              </p>
             </div>
-            <div className="split__body--narrow split__body stack-6">
-              <PullQuote
-                quote={quoteStory.quote}
-                name={quoteStory.name}
-                detail={`${quoteStory.sport}${quoteStory.placeholder ? ' · Sample story' : ''}`}
-              />
-              <ArrowLink href={`/testimony/${quoteStory.slug}`}>Read the story</ArrowLink>
+            <div className="split__body--half split__body">
+              <TestimonialList stories={quoted} />
             </div>
           </div>
         </section>
       )}
 
-      {/* Film */}
-      <section className="theme-dark section" aria-labelledby="film-title">
-        <div className="container stack-6">
-          <div className="section-head" style={{ paddingInline: 0 }}>
-            <h2 id="film-title" className="eyebrow">
-              04 — Film
-            </h2>
-            <p className="t-caption muted" style={{ maxWidth: '28rem' }}>
-              {featuredFilm.caption}
-            </p>
-          </div>
-          <Reveal variant="media">
-            <VideoFacade
-              url={featuredFilm.url}
-              poster={featuredFilm.poster}
-              posterAlt={featuredFilm.posterAlt}
-              title={featuredFilm.title}
-              label={featuredFilm.title}
-            />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Archive index */}
-      <section className="container section" aria-labelledby="index-title">
-        <div className="split">
-          <div className="split__label stack-4">
-            <SectionLabel index="05">The archive</SectionLabel>
-            <h2 id="index-title" className="t-h3">
-              Every story, in one quiet place.
-            </h2>
-          </div>
-          <div className="split__body stack-6">
-            <StoryIndex stories={stories.slice(0, 6)} caption="Recent stories in the archive" />
-            <ArrowLink href="/testimony">Browse the archive</ArrowLink>
-          </div>
-        </div>
-      </section>
-
-      <CtaTriad />
+      <ImageLink href="/testimony" label="All testimonies" image={allTestimoniesImage} />
     </>
   )
 }

@@ -3,9 +3,10 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { primaryNav, site, supportLink } from '@/lib/site'
+import { contactLink, primaryNav, site } from '@/lib/site'
 
 function isCurrent(pathname: string, href: string) {
+  if (href === '/') return pathname === '/'
   return pathname === href || pathname.startsWith(`${href}/`)
 }
 
@@ -98,11 +99,11 @@ export default function Nav() {
 
           <div className="nav__end">
             <Link
-              href={supportLink.href}
-              className="btn btn--ghost nav__cta"
-              aria-current={isCurrent(pathname, supportLink.href) ? 'page' : undefined}
+              href={contactLink.href}
+              className="link link--reveal nav__cta"
+              aria-current={isCurrent(pathname, contactLink.href) ? 'page' : undefined}
             >
-              {supportLink.label}
+              {contactLink.label}
             </Link>
             <button
               ref={toggleRef}
@@ -137,13 +138,12 @@ export default function Nav() {
           </button>
         </div>
         <nav aria-label="Mobile" className="menu__list">
-          <Link href="/">Home</Link>
           {primaryNav.map((item) => (
             <Link key={item.href} href={item.href} aria-current={isCurrent(pathname, item.href) ? 'page' : undefined}>
               {item.label}
             </Link>
           ))}
-          <Link href={supportLink.href}>{supportLink.label}</Link>
+          <Link href={contactLink.href}>{contactLink.label}</Link>
         </nav>
         <div className="menu__foot t-caption muted">
           <span>For the stories behind the score.</span>
