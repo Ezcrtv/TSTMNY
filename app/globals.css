@@ -902,7 +902,7 @@ select.input {
   font-size: var(--text-caption);
 }
 .nav__end {
-  grid-column: 3;
+  grid-column: 3 / 4;
   justify-self: end;
   display: flex;
   align-items: center;
