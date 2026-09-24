@@ -1,6 +1,6 @@
 export type ParsedVideo = { kind: 'embed'; src: string } | { kind: 'file'; src: string }
 
-const YOUTUBE = /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/
+const YOUTUBE = /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{6,})/
 const VIMEO = /vimeo\.com\/(?:video\/)?(\d+)/
 
 /** Normalises a YouTube, Vimeo, or direct file URL into something the player can mount. */

@@ -66,7 +66,7 @@ export default function VideoFacade({ url, poster, posterAlt, title, label, capt
               src={video.src}
               title={title}
               allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-              allowFullScreen
+              //allowFullScreen
               onLoad={() => setState('playing')}
             />
           ) : (
