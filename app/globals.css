@@ -41,7 +41,7 @@
   --font-display: var(--font-sans);
 
   /* Type scale — fluid; each step scales on its own curve */
-  --text-wordmark: clamp(4.5rem, 12.6vw, 15rem);
+  --text-wordmark: clamp(8rem, 20vw, 23rem);
   --text-wordmark-xl: clamp(6rem, 30vw, 36rem);
   --text-display: clamp(2.75rem, 7vw, 7.5rem);
   --text-h1: clamp(2.5rem, 5.2vw, 5.5rem);
@@ -202,7 +202,7 @@ iframe {
 }
 
 .t-wordmark {
-  font-size: var(--text-wordmark);
+  font-size: clamp(4.5rem, 12.6vw, 15rem);
   line-height: 0.82;
   letter-spacing: -0.055em;
 }
@@ -992,15 +992,48 @@ select.input {
   padding-top: var(--space-5);
 }
 .footer__wordmark {
+  overflow: hidden;
+  user-select: none;
+}
+
+.footer__wordmark-track {
+  display: flex;
+  width: max-content;
   font-family: var(--font-display);
-  font-size: 23rem;
+  font-size: var(--text-wordmark);
   line-height: 0.8;
   letter-spacing: -0.06em;
   color: var(--color-display);
   white-space: nowrap;
-  margin-left: calc(var(--gutter) - 0.06em);
-  user-select: none;
+  animation: footer-wordmark-slide 30s linear infinite;
 }
+
+.footer__wordmark-group {
+display: flex;
+flex-shrink: 0;
+}
+.footer__wordmark-group span {
+flex-shrink: 0;
+padding-right: 0.75em;
+}
+@keyframes footer-wordmark-slide {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__wordmark-track {
+    animation: none;
+  }
+}
+
+
+
 .footer__grid {
   display: grid;
   gap: var(--space-7) var(--gutter);

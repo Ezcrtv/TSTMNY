@@ -7,9 +7,31 @@ export default function Footer() {
 
   return (
     <footer className="footer">
-      <p className="footer__wordmark" aria-hidden="true">
-        {site.name}
-      </p>
+      <div className="footer__wordmark" aria-hidden="true">
+        <div className="footer__wordmark-track">
+          <div className="footer__wordmark-group">
+            <span>{site.name}</span>
+            <span>{site.name}</span>
+            <span>{site.name}</span>
+            <span>{site.name}</span>
+          </div>
+
+          <div className="footer__wordmark-group">
+            <span>{site.name}</span>
+            <span>{site.name}</span>
+            <span>{site.name}</span>
+            <span>{site.name}</span>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
 
       <div className="container footer__grid">
         <div className="footer__meta t-caption">
