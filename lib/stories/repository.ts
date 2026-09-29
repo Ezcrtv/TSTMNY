@@ -34,7 +34,8 @@ export const getStories = cache(async (): Promise<Story[]> => {
   try {
     const docs = await client.fetch<SanityStoryDoc[]>(STORY_QUERY, {}, { next: { revalidate: 60 } })
     const stories = docs.map(mapSanityStory).filter((s): s is Story => s !== null)
-    return stories.length > 0 ? stories : placeholderStories
+    return stories
+    // return stories.length > 0 ? stories : placeholderStories
   } catch (error) {
     console.error('[stories] Sanity fetch failed, using placeholder stories.', error)
     return placeholderStories
