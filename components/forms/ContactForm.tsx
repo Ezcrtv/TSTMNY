@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import Field from './Field'
 import { Arrow } from '@/components/ui/ArrowLink'
 import { CONTACT_REASONS, validateContact, type ContactErrors, type ContactReason } from '@/lib/forms/contact'
@@ -10,6 +10,11 @@ type Status = { state: 'idle' | 'sending' | 'sent' } | { state: 'error'; message
 
 export default function ContactForm({ initialReason = 'general' }: { initialReason?: ContactReason }) {
   const [reason, setReason] = useState<ContactReason>(initialReason)
+
+  useEffect(() => {
+    setReason(initialReason)
+  }, [initialReason])
+
   const [errors, setErrors] = useState<ContactErrors>({})
   const [status, setStatus] = useState<Status>({ state: 'idle' })
   const formRef = useRef<HTMLFormElement>(null)
