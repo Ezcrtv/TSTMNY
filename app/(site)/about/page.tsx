@@ -9,26 +9,26 @@ import { site } from '@/lib/site'
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'Why TSTMNY exists: a calm, curated home for the stories athletes rarely tell — faith, discipline, doubt, and purpose.',
+    'Why TSTMNY exists: a home for testimonies of what God has done — real stories of faith, shared to give hope and inspire others.',
   alternates: { canonical: '/about' },
 }
 
 const beliefs = [
   {
-    title: 'The unseen hours matter most.',
-    text: 'What happens before and after the match shapes a person more than the match itself. That’s where we point the camera.',
+    title: 'God is at the center.',
+    text: 'These aren’t motivational stories. They’re testimonies of what God has done — and He gets the credit.',
   },
   {
     title: 'Honesty over highlight.',
-    text: 'We don’t tidy stories into sermons. Doubt, failure, and unanswered prayers belong in the record too.',
+    text: 'We don’t tidy stories into sermons. Doubt, failure, and unanswered prayers belong in the record too — that’s often where faith is forged.',
   },
   {
     title: 'Faith is lived, not performed.',
     text: 'We’re interested in how belief holds up on an ordinary Tuesday — not in slogans or celebrations.',
   },
   {
-    title: 'Stories are for someone.',
-    text: 'Every testimony is told so that a young athlete, a parent, or a coach might recognise themselves in it.',
+    title: 'Every testimony is for someone.',
+    text: 'Each one is shared so that a young athlete, a parent, or anyone in a hard season might find hope and see God at work in their own life.',
   },
 ]
 
@@ -37,7 +37,7 @@ export default function AboutPage() {
     <>
       <PageHead
         eyebrow="About"
-        title="The most important parts of an athlete’s story rarely happen under the lights."
+        title="Every testimony is a record of what God has done."
       />
 
       <div className="container">
@@ -63,17 +63,17 @@ export default function AboutPage() {
           </div>
           <div className="split__body stack-7">
             <Reveal as="h2" id="why" className="t-statement">
-              Sport gives us the result in high definition. Everything that led there stays out of frame.
+              Sport shows the result. A testimony shows who carried you there.
             </Reveal>
             <Reveal className="two-col t-body-lg muted" delay={120}>
               <p>
                 Athletes live very public lives and very private ones. The public side is covered endlessly. The
-                private side — the injuries nobody filmed, the prayer in the car park, the season that almost ended a
-                career — is usually told once, in passing, and forgotten.
+                private side — the injury nobody filmed, the prayer in the car park, the season that almost ended a
+                career — is often where God was most at work, and it’s usually told once, in passing, and forgotten.
               </p>
               <p>
-                Those are the stories that stay with people. They’re also the ones young athletes most need to hear,
-                because they describe the part of the journey they’re living right now.
+                Those are the stories that stay with people. They’re also the ones others most need to hear, because
+                they show what God can do in the part of the journey they’re living right now.
               </p>
             </Reveal>
           </div>
@@ -87,17 +87,16 @@ export default function AboutPage() {
           </div>
           <div className="split__body stack-7">
             <Reveal as="h2" id="vision" className="t-h1">
-              An archive of honest testimony, kept in one calm place.
+              A growing archive of testimonies, all pointing to Jesus.
             </Reveal>
             <Reveal className="two-col t-body-lg muted" delay={120}>
               <p>
-                {site.name} is just getting started. We’re building a library of filmed and written stories from
-                athletes at every level — professionals, academy players, and the ones whose careers never made the
-                papers.
+                {site.name} is just getting started. We’re building a library of filmed and written testimonies from
+                athletes at every level — and, in time, from everyday believers whose stories never made the papers.
               </p>
               <p>
-                Over time we want it to become a place athletes come to share, not just to read: a community where the
-                next generation can find someone who’s already walked the road they’re on.
+                Our hope is simple: that someone hears a testimony at the right moment, finds hope or a stronger faith,
+                and one day shares their own. One testimony can inspire the next.
               </p>
             </Reveal>
           </div>
@@ -132,8 +131,8 @@ export default function AboutPage() {
               Sport asks you to give everything for something that ends. Faith asks what remains when it does.
             </Reveal>
             <Reveal as="p" className="t-body-lg muted" delay={120}>
-              We think the space between those two questions is where the best stories live. We’re here to listen for
-              them, and to keep them.
+              We think the space between those two questions is where God meets people. We’re here to listen for those
+              stories, and to share them.
             </Reveal>
           </div>
         </div>

@@ -2,7 +2,6 @@ import Link from 'next/link'
 import Reveal from '@/components/ui/Reveal'
 import StoryImage from './StoryImage'
 import SampleTag from './SampleTag'
-import { THEME_LABELS } from '@/lib/stories/themes'
 import { formatYear } from '@/lib/format'
 import type { Story } from '@/lib/stories/types'
 
@@ -26,16 +25,16 @@ export default function StoryCard({
         </Reveal>
         <div className="card__body">
           <p className="eyebrow">
-            {story.name} · {story.sport}
+            {[story.name, story.sport].filter(Boolean).join(' · ')}
           </p>
           <Heading className="card__title">{story.title}</Heading>
           <p className="t-body muted" style={{ maxWidth: '34rem' }}>
             {story.excerpt}
           </p>
           <p className="t-caption muted" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)', alignItems: 'center', marginTop: 'var(--space-2)' }}>
-            {story.categories.slice(0, 2).map((c) => (
-              <span key={c} className="tag">
-                {THEME_LABELS[c]}
+            {story.topics.slice(0, 2).map((t) => (
+              <span key={t.slug} className="tag">
+                {t.title}
               </span>
             ))}
             <span>{formatYear(story.date)}</span>

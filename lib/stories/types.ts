@@ -1,14 +1,8 @@
-export const THEMES = [
-  'faith',
-  'discipline',
-  'identity',
-  'purpose',
-  'failure',
-  'recovery',
-  'leadership',
-] as const
-
-export type Theme = (typeof THEMES)[number]
+/** A topic (Faith, Injury, Family…) or sport. Managed in Sanity; `slug` is used in URLs. */
+export type Topic = {
+  slug: string
+  title: string
+}
 
 export type StoryBlock =
   | { type: 'paragraph'; text: string }
@@ -33,6 +27,7 @@ export type StoryVideo = {
 export type Story = {
   slug: string
   name: string
+  /** Display name of the sport, e.g. "Football". Empty when not set. */
   sport: string
   location: string
   title: string
@@ -41,7 +36,7 @@ export type Story = {
   image: StoryImage
   video?: StoryVideo
   body: StoryBlock[]
-  categories: Theme[]
+  topics: Topic[]
   /** ISO date, YYYY-MM-DD */
   date: string
   featured?: boolean

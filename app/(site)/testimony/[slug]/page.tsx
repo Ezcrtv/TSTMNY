@@ -10,8 +10,7 @@ import ArrowLink from '@/components/ui/ArrowLink'
 import Reveal from '@/components/ui/Reveal'
 import JsonLd from '@/components/seo/JsonLd'
 import { getStories, getStory } from '@/lib/stories/repository'
-import { relatedStories } from '@/lib/stories/filter'
-import { THEME_LABELS } from '@/lib/stories/themes'
+import { archiveHref, relatedStories } from '@/lib/stories/filter'
 import { formatDate } from '@/lib/format'
 import { absoluteUrl, site } from '@/lib/site'
 import type { Story } from '@/lib/stories/types'
@@ -78,7 +77,8 @@ export default async function StoryPage({ params }: Props) {
   const [story, stories] = await Promise.all([getStory(slug), getStories()])
   if (!story) notFound()
 
-  const related = relatedStories(stories, story, 3)
+  // The closest match is offered as "watch another"; the rest fill the grid below.
+  const [next, ...more] = relatedStories(stories, story, 4)
   const meta = [
     { label: 'Athlete', value: story.name },
     { label: 'Sport', value: story.sport },
@@ -93,10 +93,10 @@ export default async function StoryPage({ params }: Props) {
       <header className="container story-hero">
         <p className="eyebrow fade-in" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-3)', alignItems: 'center' }}>
           <Link href="/testimony" className="link link--reveal">
-            Stories
+            Testimonies
           </Link>
           <span aria-hidden="true">/</span>
-          <span>{story.categories.map((c) => THEME_LABELS[c]).join(', ') || 'Testimony'}</span>
+          <span>{story.topics.map((t) => t.title).join(', ') || 'Testimony'}</span>
           {story.placeholder && <SampleTag />}
         </p>
 
@@ -147,14 +147,14 @@ export default async function StoryPage({ params }: Props) {
               </p>
               <p className="t-caption muted">{[story.sport, story.location].filter(Boolean).join(' · ')}</p>
             </div>
-            {story.categories.length > 0 && (
+            {story.topics.length > 0 && (
               <div className="stack-4">
-                <p className="eyebrow">Themes</p>
+                <p className="eyebrow">Topics</p>
                 <ul style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
-                  {story.categories.map((c) => (
-                    <li key={c}>
-                      <Link href={`/testimony?theme=${c}`} className="tag">
-                        {THEME_LABELS[c]}
+                  {story.topics.map((t) => (
+                    <li key={t.slug}>
+                      <Link href={archiveHref({ topic: t.slug })} className="tag">
+                        {t.title}
                       </Link>
                     </li>
                   ))}
@@ -173,35 +173,42 @@ export default async function StoryPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="theme-dark section" aria-labelledby="support-title">
+      {/* Keep people watching: the next testimony comes first, sharing and support after. */}
+      <section className="theme-dark section" aria-labelledby="next-title">
         <div className="container split">
           <div className="split__label">
             <p className="eyebrow">Before you go</p>
           </div>
           <div className="split__body stack-6">
-            <h2 id="support-title" className="t-h1" style={{ maxWidth: '18ch' }}>
-              If this stayed with you, help us tell the next one.
+            <h2 id="next-title" className="t-h1" style={{ maxWidth: '18ch' }}>
+              One testimony can inspire the next.
             </h2>
+            {next && (
+              <p className="t-body-lg muted" style={{ maxWidth: '36rem' }}>
+                Up next: {next.name} — {next.title}
+              </p>
+            )}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-4)', alignItems: 'center' }}>
-              <ArrowLink href="/donate" variant="primary">
-                Support {site.name}
+              <ArrowLink href={next ? `/testimony/${next.slug}` : '/testimony'} variant="primary">
+                {next ? 'Watch another testimony' : 'See all testimonies'}
               </ArrowLink>
-              <ArrowLink href="/contact?reason=testimony">Share your story</ArrowLink>
+              <ArrowLink href="/contact?reason=testimony">Share your testimony</ArrowLink>
+              <ArrowLink href="/donate">Support {site.name}</ArrowLink>
             </div>
           </div>
         </div>
       </section>
 
-      {related.length > 0 && (
+      {more.length > 0 && (
         <section className="container section" aria-labelledby="related-title">
           <div className="section-head" style={{ paddingInline: 0, paddingBottom: 'var(--space-7)' }}>
             <h2 id="related-title" className="t-h2">
-              Read another story
+              More testimonies
             </h2>
-            <ArrowLink href="/testimony">All stories</ArrowLink>
+            <ArrowLink href="/testimony">All testimonies</ArrowLink>
           </div>
           <div className="cards cards--3">
-            {related.map((s) => (
+            {more.map((s) => (
               <StoryCard key={s.slug} story={s} />
             ))}
           </div>

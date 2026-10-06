@@ -7,6 +7,7 @@
  * (/studio); once Sanity returns approved stories, this file is no longer used.
  */
 import type { Story } from './types.ts'
+import { topicsFor } from './topics.ts'
 
 export const placeholderStories: Story[] = [
   {
@@ -23,7 +24,7 @@ export const placeholderStories: Story[] = [
       alt: 'A young man in a grey T-shirt smiles with his hands clasped in front of a concrete wall.',
       position: '50% 30%',
     },
-    categories: ['faith', 'recovery'],
+    topics: topicsFor(['faith', 'recovery']),
     date: '2026-08-14',
     featured: true,
     placeholder: true,
@@ -49,7 +50,7 @@ export const placeholderStories: Story[] = [
       alt: 'A player in a white shirt looks down as he adjusts a red captain’s armband.',
       position: '70% 30%',
     },
-    categories: ['leadership', 'identity'],
+    topics: topicsFor(['leadership', 'identity']),
     date: '2026-07-02',
     featured: true,
     placeholder: true,
@@ -77,7 +78,7 @@ export const placeholderStories: Story[] = [
       alt: 'A bearded man in dark-rimmed glasses listens with a serious expression.',
       position: '45% 35%',
     },
-    categories: ['identity', 'failure', 'faith'],
+    topics: topicsFor(['identity', 'failure', 'faith']),
     date: '2026-06-18',
     placeholder: true,
     body: [
@@ -102,7 +103,7 @@ export const placeholderStories: Story[] = [
       alt: 'A smiling player in a sky-blue shirt stands in front of a dark blue curtain.',
       position: '45% 25%',
     },
-    categories: ['identity', 'purpose'],
+    topics: topicsFor(['identity', 'purpose']),
     date: '2026-05-09',
     placeholder: true,
     body: [
@@ -128,7 +129,7 @@ export const placeholderStories: Story[] = [
       alt: 'A former player in a white sweater sits in a dressing room, shirts hanging on the wall behind him.',
       position: '50% 35%',
     },
-    categories: ['purpose', 'identity', 'failure'],
+    topics: topicsFor(['purpose', 'identity', 'failure']),
     date: '2026-03-27',
     placeholder: true,
     body: [
@@ -153,7 +154,7 @@ export const placeholderStories: Story[] = [
       alt: 'A goalkeeper in green kneels on the pitch with his gloved hands open in prayer.',
       position: '45% 40%',
     },
-    categories: ['faith', 'discipline'],
+    topics: topicsFor(['faith', 'discipline']),
     date: '2026-02-11',
     placeholder: true,
     body: [

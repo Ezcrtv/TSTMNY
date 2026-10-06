@@ -3,17 +3,26 @@
  */
 export const site = {
   name: 'TSTMNY',
-  tagline: 'Stories of faith, discipline, and the moments nobody sees.',
+  /** The mission in one line. Shown in the hero and footer. */
+  purpose: 'Real stories. Real faith. Real impact.',
   description:
-    'TSTMNY is a nonprofit archive of real stories from athletes — faith, discipline, struggle, and purpose, told from outside the frame of the match.',
+    'TSTMNY is a nonprofit home for testimonies of what God has done — athletes and believers sharing real stories of faith so they can give hope, strengthen faith, and inspire others.',
   url: (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000').replace(/\/$/, ''),
   founded: '2026',
   basedIn: 'Switzerland',
   intro:
-    'We’re building a calm, curated home for real stories of faith and discipline from athletes on and off the pitch. We’re just getting started, and the stories are already worth telling.',
+    'People sharing what God has done in their lives — so their testimony can give hope, strengthen faith, and inspire the next story.',
   locale: 'en_US',
   ogImage: '/images/stories/story-06.jpg',
 }
+
+/** The loop behind every testimony. Shown on the homepage. */
+export const impactCycle = [
+  { title: 'Someone shares', text: 'An athlete or everyday believer tells what God has done in their life.' },
+  { title: 'Someone hears', text: 'A person who needs it finds that story — often at just the right moment.' },
+  { title: 'Hope grows', text: 'It gives them hope, or strengthens a faith that was wavering.' },
+  { title: 'The story continues', text: 'One day, their own testimony may be the one someone else needs to hear.' },
+]
 
 export const primaryNav = [
   { href: '/', label: 'Home' },

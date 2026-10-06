@@ -7,7 +7,7 @@ import { site } from '@/lib/site'
 export const metadata: Metadata = {
   title: 'Support the work',
   description:
-    'Support TSTMNY, a nonprofit archive of athlete testimony. Gifts fund filming, writing, and keeping every story free to read and watch.',
+    'Support TSTMNY, a nonprofit home for testimonies of faith. Gifts fund filming, writing, and keeping every testimony free to watch and read.',
   alternates: { canonical: '/donate' },
 }
 
@@ -22,18 +22,18 @@ const funds = [
 export default function DonatePage() {
   return (
     <>
-      <PageHead eyebrow="Support" title="Help us keep the quiet moments on the record." />
+      <PageHead eyebrow="Support" title="Help share what God is doing." />
 
       <section className="container" style={{ paddingBottom: 'var(--section)' }}>
         <div className="donate-grid">
           <div className="donate-grid__copy stack-8">
             <Reveal className="stack-5">
               <p className="t-statement">
-                {site.name} is a nonprofit. We don’t sell the stories, and we don’t put them behind a subscription.
+                {site.name} is a nonprofit. We don’t sell the testimonies, and we don’t put them behind a subscription.
               </p>
               <p className="t-body-lg muted prose">
                 What we can make depends on the people who give. A single gift helps fund the interview, the edit, and
-                the page someone lands on at two in the morning when they need to hear that they’re not the only one.
+                the page someone lands on at two in the morning when they need to hear that God hasn’t forgotten them.
               </p>
             </Reveal>
 

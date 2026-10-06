@@ -60,7 +60,7 @@ export default function ContactForm({ initialReason = 'general' }: { initialReas
         <p className="t-h2">Thank you. We’ll be in touch.</p>
         <p className="t-body-lg muted prose">
           {isTestimony
-            ? 'We read every story personally. If it feels like a fit, someone from our team will reach out to talk about next steps.'
+            ? 'We read every testimony personally. If it feels like a fit, someone from our team will reach out to talk about next steps.'
             : 'Your message is with us. We usually reply within a few days.'}
         </p>
         <button type="button" className="btn btn--ghost" onClick={() => setStatus({ state: 'idle' })}>
@@ -114,7 +114,7 @@ export default function ContactForm({ initialReason = 'general' }: { initialReas
         )}
         <Field
           id="message"
-          label={isTestimony ? 'Your story' : 'Message'}
+          label={isTestimony ? 'Your testimony' : 'Message'}
           hint={isTestimony ? 'Start wherever feels right. A few sentences is enough for now.' : undefined}
           error={errors.message}
           className="form-grid__full"
@@ -125,7 +125,7 @@ export default function ContactForm({ initialReason = 'general' }: { initialReas
 
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--space-5)' }}>
         <button type="submit" className="btn btn--primary" disabled={sending}>
-          {sending ? 'Sending…' : isTestimony ? 'Share your story' : 'Send message'}
+          {sending ? 'Sending…' : isTestimony ? 'Share your testimony' : 'Send message'}
           {!sending && <Arrow />}
         </button>
         <div aria-live="polite" role="status" className="t-caption">

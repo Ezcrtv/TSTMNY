@@ -3,61 +3,78 @@ import Link from 'next/link'
 import PageHead from '@/components/sections/PageHead'
 import StoryTile from '@/components/story/StoryTile'
 import StoryCard from '@/components/story/StoryCard'
-import ThemeFilter from '@/components/story/ThemeFilter'
+import StoryFilter from '@/components/story/StoryFilter'
 import { getStories } from '@/lib/stories/repository'
-import { filterByTheme } from '@/lib/stories/filter'
-import { THEME_LABELS, isTheme } from '@/lib/stories/themes'
-import { THEMES, type Theme } from '@/lib/stories/types'
+import { archiveHref, filterStories, sportOptions, topicOptions, type StoryFilters } from '@/lib/stories/filter'
 
-type Props = { searchParams: Promise<{ theme?: string | string[] }> }
+type Props = { searchParams: Promise<{ topic?: string | string[]; sport?: string | string[] }> }
+
+function single(value: string | string[] | undefined) {
+  return typeof value === 'string' && value ? value : undefined
+}
+
+async function resolveFilters(searchParams: Props['searchParams']) {
+  const params = await searchParams
+  const stories = await getStories()
+  const topics = topicOptions(stories)
+  const sports = sportOptions(stories)
+  const topic = topics.find((t) => t.slug === single(params.topic))
+  const sport = sports.find((s) => s.slug === single(params.sport))
+  return { stories, topic, sport, filters: { topic: topic?.slug, sport: sport?.slug } satisfies StoryFilters }
+}
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const { theme } = await searchParams
-  const label = isTheme(theme) ? THEME_LABELS[theme] : null
+  const { topic, sport, filters } = await resolveFilters(searchParams)
+  const label = [topic?.title, sport?.title].filter(Boolean).join(' · ')
   return {
-    title: label ? `Stories of ${label.toLowerCase()}` : 'Stories',
+    title: label ? `Testimonies: ${label}` : 'Testimonies',
     description:
-      'The TSTMNY archive: filmed and written testimony from athletes about faith, discipline, identity, failure, and recovery.',
-    alternates: { canonical: label ? `/testimony?theme=${theme}` : '/testimony' },
+      'The TSTMNY archive: filmed and written testimonies of what God has done — find one by topic, like faith, injury, or identity, or by sport.',
+    alternates: { canonical: archiveHref(filters) },
   }
 }
 
 export default async function TestimonyArchive({ searchParams }: Props) {
-  const { theme: rawTheme } = await searchParams
-  const theme = isTheme(rawTheme) ? rawTheme : undefined
-  const stories = await getStories()
-  const filtered = filterByTheme(stories, theme)
+  const { stories, topic, sport, filters } = await resolveFilters(searchParams)
+  const filtered = filterStories(stories, filters)
 
-  const counts = Object.fromEntries(
-    THEMES.map((t) => [t, stories.filter((s) => s.categories.includes(t)).length]),
-  ) as Record<Theme, number>
+  // Each row's counts respect the other row's selection.
+  const byTopic = filterStories(stories, { topic: filters.topic })
+  const bySport = filterStories(stories, { sport: filters.sport })
+  const sports = sportOptions(byTopic)
 
-  const [lead, ...rest] = theme ? [undefined, ...filtered] : filtered
+  const isFiltered = Boolean(topic || sport)
+  const [lead, ...rest] = isFiltered ? [undefined, ...filtered] : filtered
+  const resultsLabel = [topic?.title, sport?.title].filter(Boolean).join(' · ')
 
   return (
     <>
       <PageHead
-        eyebrow="The archive"
-        title="Every story, told from outside the frame."
+        eyebrow="Testimonies"
+        title="What God has done, in their own words."
         aside={
           <p>
-            Filmed and written testimony from athletes. Start anywhere — each one stands on its own.
+            Filmed and written testimonies of faith. Find one by topic or sport — each one stands on its own.
           </p>
         }
       />
 
       <section className="container" aria-label="Filter">
         <div style={{ paddingBottom: 'var(--space-7)', borderBottom: '1px solid var(--color-border)' }}>
-          <ThemeFilter active={theme} counts={counts} total={stories.length} />
+          <StoryFilter param="topic" label="Topic" options={topicOptions(bySport)} active={filters} total={bySport.length} />
+          {/* A sport row only helps once there's more than one sport to choose from. */}
+          {(sports.length > 1 || sport) && (
+            <StoryFilter param="sport" label="Sport" options={sports} active={filters} total={byTopic.length} />
+          )}
         </div>
       </section>
 
       <section className="container section--tight" aria-labelledby="results-title">
         <h2 id="results-title" className="sr-only">
-          {theme ? `Stories about ${THEME_LABELS[theme].toLowerCase()}` : 'All stories'}
+          {resultsLabel ? `Testimonies: ${resultsLabel}` : 'All testimonies'}
         </h2>
         <p className="sr-only" role="status">
-          {filtered.length} {filtered.length === 1 ? 'story' : 'stories'}
+          {filtered.length} {filtered.length === 1 ? 'testimony' : 'testimonies'}
         </p>
 
         {lead && (
@@ -77,14 +94,18 @@ export default async function TestimonyArchive({ searchParams }: Props) {
 
         {filtered.length === 0 && (
           <div className="stack-5" style={{ paddingBlock: 'var(--space-9)' }}>
-            <p className="t-h2">No stories here yet.</p>
+            <p className="t-h2">No testimonies here yet.</p>
             <p className="t-body-lg muted">
-              <Link href="/testimony" className="link">
-                See every story
-              </Link>{' '}
-              or{' '}
+              {isFiltered && (
+                <>
+                  <Link href="/testimony" className="link">
+                    See every testimony
+                  </Link>{' '}
+                  or{' '}
+                </>
+              )}
               <Link href="/contact?reason=testimony" className="link">
-                share one of your own
+                {isFiltered ? 'share your own' : 'Share your testimony'}
               </Link>
               .
             </p>
