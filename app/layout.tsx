@@ -1,9 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Mona_Sans } from 'next/font/google'
-import Nav from '@/components/layout/Nav'
-import Footer from '@/components/layout/Footer'
-import JsonLd from '@/components/seo/JsonLd'
-import { absoluteUrl, site } from '@/lib/site'
+import { site } from '@/lib/site'
 import './globals.css'
 
 const sans = Mona_Sans({
@@ -34,33 +31,20 @@ export const viewport: Viewport = {
   themeColor: '#cfc3a8',
 }
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={sans.variable} suppressHydrationWarning>
       <head>
-        {/* Enables reveal-on-scroll styles only when JS runs, so content is never hidden without it. */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
-      </head>
-      <body>
-        <a href="#main" className="skip-link">
-          Skip to content
-        </a>
-        <JsonLd
-          data={{
-            '@context': 'https://schema.org',
-            '@type': 'NGO',
-            name: site.name,
-            url: absoluteUrl('/'),
-            description: site.description,
-            foundingDate: site.founded,
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
           }}
         />
-        <Nav />
-        <main id="main" tabIndex={-1} style={{ outline: 'none' }}>
-          {children}
-        </main>
-        <Footer />
-      </body>
+      </head>
+
+      <body>{children}</body>
     </html>
   )
 }
