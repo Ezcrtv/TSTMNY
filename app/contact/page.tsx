@@ -19,8 +19,13 @@ export default async function ContactPage({ searchParams }: Props) {
     <>
       <PageHead
         eyebrow="Contact"
-        title="Have a story worth telling?"
-        aside={<p>Or a question, an idea, a partnership. Write to us — a real person reads every message.</p>}
+        title="What has God done in your life?"
+        aside={
+          <p>
+            Your testimony could be the story someone needs to hear. Share it with us — or write about anything else: a
+            question, an idea, a partnership. A real person reads every message.
+          </p>
+        }
       />
       <section className="container" style={{ paddingBottom: 'var(--section)' }}>
         <div className="split">

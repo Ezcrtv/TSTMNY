@@ -1,5 +1,5 @@
-import type { Story, StoryBlock, Theme } from './types.ts'
-import { isTheme } from './themes.ts'
+import type { Story, StoryBlock, Topic } from './types.ts'
+import { topicsFor } from './topics.ts'
 
 export const FALLBACK_IMAGE = '/images/stories/placeholder.svg'
 
@@ -13,11 +13,17 @@ export type SanityStoryDoc = {
   title?: string
   slug?: { current?: string }
   person?: { name?: string }
+  /** Title of the referenced sport document. */
+  sportTitle?: string
+  /** Legacy free-text sport, used until the story is linked to a sport document. */
   sport?: string
   location?: string
   excerpt?: string
   shortDescription?: string
   quote?: string
+  /** Referenced topic documents. */
+  topics?: { slug?: string; title?: string }[] | null
+  /** Legacy theme strings, used until the story is linked to topic documents. */
   categories?: string[]
   publishedAt?: string
   _createdAt?: string
@@ -44,13 +50,14 @@ export function mapSanityStory(doc: SanityStoryDoc): Story | null {
   const name = doc.person?.name?.trim() || 'Unnamed'
   const body = (doc.story ?? []).map(toBlock).filter((b): b is StoryBlock => b !== null)
   const excerpt = doc.excerpt ?? doc.shortDescription ?? ''
-  const categories = (doc.categories ?? []).filter(isTheme) as Theme[]
+  const linked = (doc.topics ?? []).filter((t): t is Topic => Boolean(t?.slug && t.title))
+  const topics = linked.length > 0 ? linked : topicsFor(doc.categories ?? [])
   const date = (doc.publishedAt ?? doc._createdAt ?? '').slice(0, 10)
 
   return {
     slug,
     name,
-    sport: doc.sport ?? '',
+    sport: doc.sportTitle ?? doc.sport ?? '',
     location: doc.location ?? '',
     title: doc.title ?? '',
     excerpt,
@@ -58,7 +65,7 @@ export function mapSanityStory(doc: SanityStoryDoc): Story | null {
     image: { src: doc.imageUrl ?? FALLBACK_IMAGE, alt: doc.imageAlt ?? `Portrait of ${name}` },
     video: doc.videoUrl ? { url: doc.videoUrl } : undefined,
     body,
-    categories,
+    topics,
     date,
     featured: doc.featured ?? false,
   }

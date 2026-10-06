@@ -6,7 +6,7 @@ import StoryTile from '@/components/story/StoryTile'
 import TestimonialList from '@/components/story/TestimonialList'
 import ImageLink from '@/components/sections/ImageLink'
 import { getStories } from '@/lib/stories/repository'
-import { allTestimoniesImage, site } from '@/lib/site'
+import { allTestimoniesImage, impactCycle, site } from '@/lib/site'
 import type { Story } from '@/lib/stories/types'
 
 /**
@@ -39,6 +39,11 @@ export default async function Home() {
               <span>{site.name}</span>
             </span>
           </h1>
+          <p className="hero__purpose fade-in" style={{ '--fade-delay': '250ms' } as React.CSSProperties}>
+            {site.purpose.split('. ').map((line, i, lines) => (
+              <span key={line}>{i < lines.length - 1 ? `${line}.` : line}</span>
+            ))}
+          </p>
           <p className="hero__intro t-caption fade-in" style={{ '--fade-delay': '400ms' } as React.CSSProperties}>
             {site.intro}
           </p>
@@ -49,7 +54,7 @@ export default async function Home() {
       <section aria-labelledby="works-title">
         <div className="container section-head">
           <h2 id="works-title" className="t-caption">
-            Based in {site.basedIn}
+            Testimonies
           </h2>
           <span className="t-caption" aria-hidden="true">
             ↓
@@ -103,6 +108,32 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Impact cycle */}
+      <section className="theme-dark section" aria-labelledby="cycle-title">
+        <div className="container split">
+          <div className="split__label">
+            <p className="t-meta">The impact</p>
+          </div>
+          <div className="split__body stack-8">
+            <Reveal as="h2" id="cycle-title" className="t-h1 cycle__title">
+              One testimony can inspire the next.
+            </Reveal>
+            <ol className="cycle">
+              {impactCycle.map((step, i) => (
+                <Reveal as="li" key={step.title} className="cycle__step" delay={i * 90}>
+                  <span className="cycle__num t-meta muted">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 className="t-h3">{step.title}</h3>
+                  <p className="t-body muted">{step.text}</p>
+                </Reveal>
+              ))}
+            </ol>
+            <p className="t-caption muted cycle__loop">
+              <span aria-hidden="true">↺ </span>And the cycle begins again.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {hasFieldImage && (
         <Reveal variant="media" className="media media--cinema">
           <Image src={FIELD_IMAGE} alt="" fill sizes="100vw" />
@@ -118,7 +149,7 @@ export default async function Home() {
                 Written testimonials
               </h2>
               <p className="t-caption muted" style={{ maxWidth: '20rem' }}>
-                In their own words — short reflections from athletes on faith, doubt, and what carried them.
+                In their own words — short reflections on what God has done and what carried them through.
               </p>
             </div>
             <div className="split__body--half split__body">

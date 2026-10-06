@@ -7,11 +7,13 @@ test('maps a full Sanity document', () => {
     title: 'Before the whistle',
     slug: { current: 'before-the-whistle' },
     person: { name: 'Sam Doe' },
+    sportTitle: 'Basketball',
     sport: 'Football',
     location: 'Leeds',
     excerpt: 'Short.',
     quote: 'A line.',
-    categories: ['faith', 'bogus'],
+    topics: [{ slug: 'injury', title: 'Injury' }, null as never, { slug: 'family' }],
+    categories: ['faith'],
     publishedAt: '2026-03-02T10:00:00Z',
     imageUrl: 'https://cdn.sanity.io/x.jpg',
     videoUrl: 'https://youtu.be/abc',
@@ -24,7 +26,8 @@ test('maps a full Sanity document', () => {
   assert.ok(story)
   assert.equal(story.slug, 'before-the-whistle')
   assert.equal(story.name, 'Sam Doe')
-  assert.deepEqual(story.categories, ['faith'])
+  assert.deepEqual(story.topics, [{ slug: 'injury', title: 'Injury' }])
+  assert.equal(story.sport, 'Basketball')
   assert.equal(story.date, '2026-03-02')
   assert.equal(story.video?.url, 'https://youtu.be/abc')
   assert.deepEqual(story.body, [
@@ -46,4 +49,14 @@ test('falls back gracefully on sparse documents', () => {
 
 test('returns null without a slug', () => {
   assert.equal(mapSanityStory({ title: 'x' }), null)
+})
+
+test('falls back to legacy theme strings and sport text', () => {
+  const story = mapSanityStory({ slug: { current: 'x' }, sport: 'Tennis', categories: ['faith', 'new-topic'], topics: null })
+  assert.ok(story)
+  assert.equal(story.sport, 'Tennis')
+  assert.deepEqual(story.topics, [
+    { slug: 'faith', title: 'Faith' },
+    { slug: 'new-topic', title: 'New Topic' },
+  ])
 })

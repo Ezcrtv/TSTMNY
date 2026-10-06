@@ -1,6 +1,6 @@
 # TSTMNY
 
-A nonprofit editorial archive of athlete testimony — faith, discipline, struggle, and purpose, told from outside the frame of the match.
+Real stories. Real faith. Real impact. A nonprofit home for testimonies of what God has done — shared so they can give hope, strengthen faith, and inspire others.
 
 Built with Next.js 16 (App Router), React 19, TypeScript, Sanity, Stripe Checkout, and Resend. No animation or UI libraries; the design system lives in `app/globals.css`.
 
@@ -12,7 +12,7 @@ cp .env.example .env.local   # fill in the values you have
 npm run dev
 ```
 
-The site runs without any environment variables: stories fall back to local placeholder content, and the donate/contact forms show a clear "not connected yet" message.
+The site runs without any environment variables: without Sanity configured, stories fall back to local placeholder content, and the donate/contact forms show a clear "not connected yet" message.
 
 ## Scripts
 
@@ -29,7 +29,7 @@ The site runs without any environment variables: stories fall back to local plac
 |---|---|
 | `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET` | Story content, `/studio` |
 | `SANITY_API_TOKEN` | Saving story submissions from `/contact` |
-| `STRIPE_SECRET_KEY` | `/api/stripe/checkout` |
+| `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` | `/api/stripe/checkout`, `/api/stripe/webhook` |
 | `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `RESEND_TO_EMAIL` | Contact and story submission emails |
 | `NEXT_PUBLIC_BASE_URL` | Canonical URLs, sitemap, Stripe redirects |
 
@@ -40,16 +40,16 @@ app/                  Routes: /, /about, /testimony, /testimony/[slug], /donate,
 components/
   layout/             Nav, Footer
   sections/           PageHead, CtaTriad
-  story/              StoryTile, StoryCard, StoryIndex, StoryBody, PullQuote, ThemeFilter, SampleTag
+  story/              StoryTile, StoryCard, StoryIndex, StoryBody, PullQuote, StoryFilter, SampleTag
   media/              VideoFacade (click-to-load YouTube / Vimeo / file)
   forms/              ContactForm, DonateForm, Field
   ui/                 Reveal, ArrowLink, SectionLabel
 lib/
-  stories/            Story type, themes, filtering, Sanity mapping, repository, placeholder stories
+  stories/            Story type, topics, filtering, Sanity mapping, repository, placeholder stories
   forms/              Contact validation, JSON submission helper
   donations.ts        Donation presets + provider call (swap here to change provider)
   site.ts             Site constants, nav, social links, featured film
-sanity/               Studio schema (testimony, siteSettings)
+sanity/               Studio schema (testimony, topic, sport, siteSettings)
 public/images/        Images (stories/ holds temporary stand-ins)
 public/videos/        Self-hosted video files (optional)
 tests/                Unit tests
@@ -57,9 +57,9 @@ tests/                Unit tests
 
 ## Content
 
-Stories come from Sanity (`testimony` documents with status **Approved**). Until Sanity is configured and has approved stories, `lib/stories/placeholder-stories.ts` is used. Placeholder stories are fictional, display a "Sample story" tag, are marked `noindex`, and are excluded from the sitemap and structured data.
+Testimonies come from Sanity (`testimony` documents with status **Approved**), linked to **Topic** and **Sport** documents that the team manages in Studio. Adding a new sport or topic is a Studio entry, not a code change. If Sanity isn't configured or can't be reached, `lib/stories/placeholder-stories.ts` is used instead. Once Sanity is connected, an empty dataset shows an empty archive. Placeholder stories are fictional, display a "Sample story" tag, are marked `noindex`, and are excluded from the sitemap and structured data.
 
-To add a story in Sanity, fill in: title, slug, person name, sport, location, excerpt, pull quote, themes, lead image (with alt text), video URL (optional), story body (use *Quote* style for pull quotes, *H2* for section headings), and set status to Approved.
+See [docs/content-guide.md](docs/content-guide.md) for adding testimonies, sports, and topics, the approval workflow, and the plan for community testimonies.
 
 ## Before launch — still needed
 

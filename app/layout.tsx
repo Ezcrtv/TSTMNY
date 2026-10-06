@@ -16,7 +16,7 @@ const sans = Mona_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — ${site.tagline}`,
+    default: `${site.name} — ${site.purpose}`,
     template: `%s — ${site.name}`,
   },
   description: site.description,

@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { THEME_LABELS } from '@/lib/stories/themes'
 import { formatYear } from '@/lib/format'
 import type { Story } from '@/lib/stories/types'
 
@@ -12,7 +11,7 @@ export default function StoryIndex({ stories, caption }: { stories: Story[]; cap
         <tr>
           <th scope="col">Story</th>
           <th scope="col" className="index__col--hide-sm">Athlete</th>
-          <th scope="col" className="index__col--hide-sm">Theme</th>
+          <th scope="col" className="index__col--hide-sm">Topic</th>
           <th scope="col" style={{ textAlign: 'right' }}>Year</th>
         </tr>
       </thead>
@@ -31,7 +30,7 @@ export default function StoryIndex({ stories, caption }: { stories: Story[]; cap
             </td>
             <td className="index__col--hide-sm t-body">{story.name}</td>
             <td className="index__col--hide-sm t-body muted">
-              {story.categories.map((c) => THEME_LABELS[c]).join(', ')}
+              {story.topics.map((t) => t.title).join(', ')}
             </td>
             <td className="t-body" style={{ textAlign: 'right' }}>
               {formatYear(story.date)}

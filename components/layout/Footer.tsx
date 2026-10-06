@@ -35,9 +35,9 @@ export default function Footer() {
 
       <div className="container footer__grid">
         <div className="footer__meta t-caption">
-          <p>For the stories behind the score.</p>
+          <p>{site.purpose}</p>
           <p className="muted">
-            © {year} {site.name}. A nonprofit storytelling archive. Based in {site.basedIn}.
+            © {year} {site.name}. A nonprofit home for testimonies of faith. Based in {site.basedIn}.
           </p>
         </div>
 

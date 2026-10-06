@@ -3,12 +3,12 @@ import { Arrow } from '@/components/ui/ArrowLink'
 import Reveal from '@/components/ui/Reveal'
 
 const actions = [
-  { href: '/testimony', title: 'Read a story', text: 'Start anywhere. Every story stands on its own.' },
-  { href: '/contact?reason=testimony', title: 'Share your story', text: 'If you’ve lived one worth telling, we’d like to listen.' },
-  { href: '/donate', title: 'Support the work', text: 'Help us film, write, and keep these stories free.' },
+  { href: '/testimony', title: 'Watch a testimony', text: 'Start anywhere. Every testimony stands on its own.' },
+  { href: '/contact?reason=testimony', title: 'Share your testimony', text: 'What has God done in your life? Your story could be the one someone needs to hear.' },
+  { href: '/donate', title: 'Support the mission', text: 'Help us film, write, and keep every testimony free.' },
 ]
 
-/** Closing invitation used at the end of long pages. */
+/** Closing invitation used at the end of long pages. Giving always comes last. */
 export default function CtaTriad({ heading = 'Stay a while.' }: { heading?: string }) {
   return (
     <section className="container section" aria-labelledby="cta-title">

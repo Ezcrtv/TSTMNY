@@ -1003,7 +1003,8 @@ select.input {
   font-size: var(--text-wordmark);
   line-height: 0.8;
   letter-spacing: -0.06em;
-  color: var(--color-display);
+  /* Bone on khaki is only ~1.6:1 — the wordmark uses the deep olive for a readable mark. */
+  color: var(--olive-deep);
   white-space: nowrap;
   animation: footer-wordmark-slide 30s linear infinite;
 }
@@ -1496,4 +1497,58 @@ padding-right: 0.75em;
 }
 .image-link:hover .image-link__label {
   transform: translateY(-0.25rem);
+}
+
+/* Archive filter rows (topic, sport) */
+.filter-row {
+  display: grid;
+  gap: var(--space-2);
+}
+.filter-row + .filter-row {
+  margin-top: var(--space-5);
+}
+@media (min-width: 768px) {
+  .filter-row {
+    grid-template-columns: 8rem 1fr;
+    align-items: baseline;
+  }
+}
+
+/* Home hero purpose line: three short statements, stacked */
+.hero__purpose {
+  display: grid;
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  line-height: var(--leading-heading);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+/* Impact cycle: share → hear → hope → share again */
+.cycle__title {
+  max-width: 16ch;
+}
+.cycle {
+  display: grid;
+  gap: var(--space-6) var(--gutter);
+}
+@media (min-width: 768px) {
+  .cycle {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1200px) {
+  .cycle {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.cycle__step {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-strong);
+}
+.cycle__loop {
+  margin-top: var(--space-6);
 }
