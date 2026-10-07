@@ -10,7 +10,7 @@ import ArrowLink from '@/components/ui/ArrowLink'
 import Reveal from '@/components/ui/Reveal'
 import JsonLd from '@/components/seo/JsonLd'
 import { getStories, getStory } from '@/lib/stories/repository'
-import { archiveHref, relatedStories } from '@/lib/stories/filter'
+import { archiveHref, nextStory, relatedStories } from '@/lib/stories/filter'
 import { formatDate } from '@/lib/format'
 import { absoluteUrl, site } from '@/lib/site'
 import type { Story } from '@/lib/stories/types'
@@ -78,7 +78,11 @@ export default async function StoryPage({ params }: Props) {
   if (!story) notFound()
 
   // The closest match is offered as "watch another"; the rest fill the grid below.
-  const [next, ...more] = relatedStories(stories, story, 4)
+  // Advance through testimonies in order; keep related stories for the grid below.
+  const next = nextStory(stories, story)
+  const more = relatedStories(stories, story, 4).filter(
+    (related) => related.slug !== next?.slug,
+  )
   const meta = [
     { label: 'Athlete', value: story.name },
     { label: 'Sport', value: story.sport },

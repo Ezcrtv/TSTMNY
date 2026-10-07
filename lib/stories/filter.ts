@@ -58,3 +58,13 @@ export function relatedStories(stories: Story[], current: Story, limit = 3): Sto
     .slice(0, limit)
     .map(({ story }) => story)
 }
+
+/** Next story in the current story order, wrapping back to the first. */
+export function nextStory(stories: Story[], current: Story): Story | undefined {
+  if (stories.length <= 1) return undefined
+
+  const currentIndex = stories.findIndex((story) => story.slug === current.slug)
+  if (currentIndex === -1) return undefined
+
+  return stories[(currentIndex + 1) % stories.length]
+}
