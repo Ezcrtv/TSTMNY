@@ -22,7 +22,8 @@ const STORY_QUERY = `*[_type == "testimony" && status == "approved"] | order(coa
   videoUrl,
   story,
   "imageUrl": coalesce(thumbnail.asset->url, person.photo.asset->url),
-  "imageAlt": thumbnail.alt
+  "imageAlt": thumbnail.alt,
+  "imageHotspot": select(defined(thumbnail.asset) => thumbnail.hotspot, person.photo.hotspot)
 }`
 
 /**

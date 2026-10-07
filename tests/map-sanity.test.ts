@@ -60,3 +60,12 @@ test('falls back to legacy theme strings and sport text', () => {
     { slug: 'new-topic', title: 'New Topic' },
   ])
 })
+
+test('uses the Sanity hotspot to position crops', () => {
+  const story = mapSanityStory({ slug: { current: 'x' }, imageUrl: 'https://cdn.sanity.io/x.jpg', imageHotspot: { x: 0.45, y: 0.18 } })
+  assert.equal(story?.image.position, '45% 18%')
+})
+
+test('favours the top of the photo without a hotspot', () => {
+  assert.equal(mapSanityStory({ slug: { current: 'x' } })?.image.position, '50% 30%')
+})

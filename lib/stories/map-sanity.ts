@@ -3,6 +3,18 @@ import { topicsFor } from './topics.ts'
 
 export const FALLBACK_IMAGE = '/images/stories/placeholder.svg'
 
+/** Without a hotspot, favour the upper part of the photo, where faces usually are. */
+export const DEFAULT_IMAGE_POSITION = '50% 30%'
+
+type Hotspot = { x?: number; y?: number }
+
+/** Sanity hotspot (0–1 from the top-left) → CSS object-position, so crops keep the subject in frame. */
+function toPosition(hotspot?: Hotspot | null): string {
+  if (typeof hotspot?.x !== 'number' || typeof hotspot?.y !== 'number') return DEFAULT_IMAGE_POSITION
+  const pct = (n: number) => `${Math.round(Math.min(Math.max(n, 0), 1) * 100)}%`
+  return `${pct(hotspot.x)} ${pct(hotspot.y)}`
+}
+
 type PortableBlock = {
   _type?: string
   style?: string
@@ -29,6 +41,7 @@ export type SanityStoryDoc = {
   _createdAt?: string
   imageUrl?: string
   imageAlt?: string
+  imageHotspot?: Hotspot | null
   videoUrl?: string
   featured?: boolean
   story?: PortableBlock[]
@@ -62,7 +75,11 @@ export function mapSanityStory(doc: SanityStoryDoc): Story | null {
     title: doc.title ?? '',
     excerpt,
     quote: doc.quote ?? '',
-    image: { src: doc.imageUrl ?? FALLBACK_IMAGE, alt: doc.imageAlt ?? `Portrait of ${name}` },
+    image: {
+      src: doc.imageUrl ?? FALLBACK_IMAGE,
+      alt: doc.imageAlt ?? `Portrait of ${name}`,
+      position: toPosition(doc.imageHotspot),
+    },
     video: doc.videoUrl ? { url: doc.videoUrl } : undefined,
     body,
     topics,
