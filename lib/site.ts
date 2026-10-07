@@ -13,7 +13,6 @@ export const site = {
   intro:
     'People sharing what God has done in their lives — so their testimony can give hope, strengthen faith, and inspire the next story.',
   locale: 'en_US',
-  ogImage: '/images/stories/story-06.jpg',
 }
 
 /** The loop behind every testimony. Shown on the homepage. */

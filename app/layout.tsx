@@ -21,7 +21,6 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: site.name,
     locale: site.locale,
-    images: [{ url: site.ogImage, width: 1600, height: 1200 }],
   },
   twitter: { card: 'summary_large_image' },
   alternates: { canonical: '/' },
