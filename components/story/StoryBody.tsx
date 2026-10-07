@@ -3,7 +3,6 @@ import type { StoryBlock } from '@/lib/stories/types'
 
 /** Renders story blocks with editorial rhythm: first paragraph as a lede, pull quotes breaking the measure. */
 export default function StoryBody({ blocks }: { blocks: StoryBlock[] }) {
-  let paragraphIndex = 0
 
   return (
     <div className="story-body">
@@ -22,9 +21,8 @@ export default function StoryBody({ blocks }: { blocks: StoryBlock[] }) {
             </h2>
           )
         }
-        const isLede = paragraphIndex++ === 0
         return (
-          <p key={i} className={isLede ? 'story-body__lede' : 't-body-lg'}>
+          <p key={i} className="t-body-lg">
             {block.text}
           </p>
         )
