@@ -969,7 +969,7 @@ select.input {
   flex: none;
 }
 .menu__list {
-  margin-top: auto;
+  margin-top: var(--space-8);
   display: grid;
   gap: var(--space-2);
 }
