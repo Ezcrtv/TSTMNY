@@ -1,0 +1,175 @@
+<title>TSTMNY Studio Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Mona+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column, steps as a real sequence, a quiet sidebar of field notes stacked below on phones */
+:root {
+  --bg: #cfc3a8;
+  --surface: #c5b99d;
+  --ink: #161712;
+  --muted: #2a2820;
+  --accent: #263126;
+  --on-accent: #f8f7f2;
+  --rule: rgb(22 23 18 / 0.22);
+  --warn: #7a3a12;
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Mona Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1b231c; --surface: #243025; --ink: #f1eee4; --muted: #c9c2b0;
+    --accent: #cfc3a8; --on-accent: #1b231c; --rule: rgb(241 238 228 / 0.18); --warn: #e3a072;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1b231c; --surface: #243025; --ink: #f1eee4; --muted: #c9c2b0;
+  --accent: #cfc3a8; --on-accent: #1b231c; --rule: rgb(241 238 228 / 0.18); --warn: #e3a072;
+  color-scheme: dark;
+}
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+main { max-width: 44rem; margin: 0 auto; padding-block: 3.5rem 5rem; display: grid; gap: 3rem; }
+header { display: grid; gap: .75rem; }
+.eyebrow { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--muted); }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.6rem, 8vw, 4.25rem); line-height: 1; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.75rem, 4.5vw, 2.4rem); line-height: 1.08; margin: 0; text-wrap: balance; }
+h3 { font-size: 1rem; font-weight: 600; margin: 0; }
+p { margin: 0; max-width: 65ch; }
+.lede { font-size: 1.1875rem; color: var(--muted); }
+section { display: grid; gap: 1.1rem; padding-top: 2rem; border-top: 1px solid var(--rule); }
+ol.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; counter-reset: s; }
+ol.steps > li { counter-increment: s; display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; }
+ol.steps > li::before {
+  content: counter(s); font-family: var(--font-display); font-size: 1.5rem; line-height: 1.1; color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+ol.steps > li > div { display: grid; gap: .35rem; min-width: 0; }
+b, strong { font-weight: 600; }
+.ui { font-weight: 600; white-space: nowrap; }
+code { font-family: var(--font-mono); font-size: .9em; background: var(--surface); padding: .1em .35em; border-radius: 3px; overflow-wrap: anywhere; }
+.fields { width: 100%; border-collapse: collapse; font-size: .9375rem; }
+.table-wrap { overflow-x: auto; }
+.fields th, .fields td { text-align: left; vertical-align: top; padding: .6rem .75rem .6rem 0; border-bottom: 1px solid var(--rule); }
+.fields th { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.fields td:first-child { font-weight: 600; white-space: nowrap; }
+.req { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--warn); font-weight: 600; margin-left: .35rem; }
+.callout { background: var(--accent); color: var(--on-accent); padding: 1.1rem 1.25rem; border-radius: 4px; display: grid; gap: .4rem; }
+.callout p { max-width: none; }
+.status { display: inline-block; font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: .15rem .5rem; border: 1px solid currentColor; border-radius: 99px; }
+.pending { color: var(--warn); }
+.approved { color: var(--accent); }
+ul.plain { margin: 0; padding-left: 1.1rem; display: grid; gap: .45rem; }
+footer { font-size: .875rem; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 1.5rem; }
+</style>
+
+<main>
+  <header>
+    <span class="eyebrow">TSTMNY · Content Studio</span>
+    <h1>How to manage testimonies on your site</h1>
+    <p class="lede">Every story on the site lives in Sanity Studio. You add and edit testimonies there, approve submissions, and the website updates itself. You never need to touch code.</p>
+  </header>
+
+  <section>
+    <h2>Getting in</h2>
+    <ol class="steps">
+      <li><div><p>Accept the email invite from <b>Sanity</b> and sign in with Google, GitHub, or email. Use the same login every time.</p></div></li>
+      <li><div><p>Go to <code>yourdomain.com/studio</code>. Bookmark it. Your content lives here.</p></div></li>
+      <li><div><p>On the left you'll see the content types: <span class="ui">Testimony</span>, <span class="ui">Topic</span>, <span class="ui">Sport</span>, and <span class="ui">Site Settings</span>. Click one to see its list, then click an item to open it.</p></div></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>The one rule: Approved + Published</h2>
+    <div class="callout">
+      <p><b>A testimony only shows on the site when its Status is Approved and you have clicked Publish.</b></p>
+      <p>Changes appear on the live site within about a minute. If it's not there right away, wait a minute and refresh.</p>
+    </div>
+    <p><span class="status pending">Pending</span> means it's hidden. Use this for drafts and anything you're still reviewing. <span class="status approved">Approved</span> means it's ready to be public.</p>
+    <p>Clicking <span class="ui">Publish</span> (bottom right) saves your edits to the live version. Until you publish, edits stay in a draft that only you can see in the Studio.</p>
+  </section>
+
+  <section>
+    <h2>Add a new testimony</h2>
+    <ol class="steps">
+      <li><div><p>Click <span class="ui">Testimony</span>, then the <span class="ui">+</span> / <span class="ui">Create</span> button at the top.</p></div></li>
+      <li><div><p>Type the <b>Title</b>, then click <span class="ui">Generate</span> next to <b>Slug</b>. The slug becomes the page's web address, e.g. <code>/testimony/the-day-i-came-back</code>.</p></div></li>
+      <li><div><p>Fill in the rest of the fields (see the table below). Only Title, Slug, Person name, and Status are required, but a story looks best with an image, excerpt, and pull quote.</p></div></li>
+      <li><div><p>Set <b>Status</b> to <span class="ui">Approved</span> and click <span class="ui">Publish</span>.</p></div></li>
+    </ol>
+
+    <div class="table-wrap">
+      <table class="fields">
+        <thead><tr><th>Field</th><th>What to put there</th></tr></thead>
+        <tbody>
+          <tr><td>Title<span class="req">Required</span></td><td>The story's headline.</td></tr>
+          <tr><td>Slug<span class="req">Required</span></td><td>Click Generate. Avoid changing it after publishing, since old links would break.</td></tr>
+          <tr><td>Person → Name<span class="req">Required</span></td><td>Who the testimony belongs to. Add their photo if you have one.</td></tr>
+          <tr><td>Sport</td><td>Pick from the list. If it's missing, create it under Sport first (see below).</td></tr>
+          <tr><td>Location</td><td>City, Country.</td></tr>
+          <tr><td>Excerpt</td><td>Two or three sentences. Shown on story cards and at the top of the story.</td></tr>
+          <tr><td>Pull quote</td><td>One short line from the story, shown large.</td></tr>
+          <tr><td>Topics</td><td>What the story is about: Faith, Injury, Family… Pick as many as fit.</td></tr>
+          <tr><td>Video URL</td><td>Paste a YouTube or Vimeo link. Optional.</td></tr>
+          <tr><td>Lead image</td><td>The main photo. Use a large, wide photo (2400px wide or more). Fill in <b>Alt text</b> with a short description of the photo for screen readers.</td></tr>
+          <tr><td>Story</td><td>The full text. Use the <b>H2</b> style for section headings and the <b>Quote</b> style for highlighted quotes.</td></tr>
+          <tr><td>Status<span class="req">Required</span></td><td>Pending (hidden) or Approved (live).</td></tr>
+          <tr><td>Featured</td><td>Turn on to pin this story to the homepage.</td></tr>
+          <tr><td>Published At</td><td>The date shown on the story. Optional.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b>Tip on photos:</b> after uploading an image, click the crop icon to set the <b>hotspot</b>, the part of the photo (usually a face) that should always stay visible when the site crops it.</p>
+  </section>
+
+  <section>
+    <h2>Review stories people submit</h2>
+    <p>When someone fills out "Share my testimony" on the Contact page, two things happen: you get an email, and a new <span class="status pending">Pending</span> testimony appears in the Studio. Nothing pending is ever shown on the site.</p>
+    <ol class="steps">
+      <li><div><p>Open <span class="ui">Testimony</span> and find the new entry.</p></div></li>
+      <li><div><p>Read it and tidy the text. Add a title, image, sport, topics, excerpt, and pull quote.</p></div></li>
+      <li><div><p>When it's ready, set <b>Status</b> to <span class="ui">Approved</span> and <span class="ui">Publish</span>. If it's not a fit, leave it Pending or delete it.</p></div></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Sports and topics</h2>
+    <p>These power the filters on the Testimonies page. Adding one is a Studio entry, not a website change.</p>
+    <ol class="steps">
+      <li><div><p>Click <span class="ui">Sport</span> (or <span class="ui">Topic</span>) → <span class="ui">Create</span>.</p></div></li>
+      <li><div><p>Type the name, e.g. "Basketball" or "Grief", click <span class="ui">Generate</span> for the slug, and <span class="ui">Publish</span>.</p></div></li>
+      <li><div><p>Open a testimony and pick it in the Sport or Topics field.</p></div></li>
+    </ol>
+    <p>A topic shows up as a filter once at least one approved story uses it. The sport filter appears once stories cover two or more sports.</p>
+  </section>
+
+  <section>
+    <h2>Editing, hiding, and removing</h2>
+    <ul class="plain">
+      <li><b>Fix a typo:</b> open the testimony, edit, click <span class="ui">Publish</span>.</li>
+      <li><b>Hide a story temporarily:</b> set Status back to <span class="ui">Pending</span> and Publish. It disappears from the site but stays saved.</li>
+      <li><b>Remove for good:</b> use the <span class="ui">⋯</span> menu next to Publish → <span class="ui">Delete</span>. This can't be undone, so hiding is usually safer.</li>
+      <li><b>Undo a mistake:</b> the clock icon (top right of a document) shows its history and lets you restore an earlier version.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Things you can ignore</h2>
+    <ul class="plain">
+      <li>Fields marked <b>(legacy)</b>, like <i>Sport (legacy text)</i>, <i>Themes (legacy)</i>, <i>Category (legacy)</i>, and <i>Short Description</i>. They're from an older version. When you edit an older story, pick its Sport and Topics, then clear the legacy field.</li>
+      <li><b>Site Settings</b>. The homepage text and social links are currently set in the website code. Ask your developer if you want to change them.</li>
+      <li>The <b>Vision</b> tab in the Studio. It's a developer tool.</li>
+    </ul>
+  </section>
+
+  <footer>
+    Questions or something looks off? Contact Isac at EZ CRTV.
+  </footer>
+</main>
