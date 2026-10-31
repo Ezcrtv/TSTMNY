@@ -1,0 +1,186 @@
+<title>TSTMNY Studio-Anleitung</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Mona+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column, steps as a real sequence, a quiet sidebar of field notes stacked below on phones */
+:root {
+  --bg: #cfc3a8;
+  --surface: #c5b99d;
+  --ink: #161712;
+  --muted: #2a2820;
+  --accent: #263126;
+  --on-accent: #f8f7f2;
+  --rule: rgb(22 23 18 / 0.22);
+  --warn: #7a3a12;
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Mona Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1b231c; --surface: #243025; --ink: #f1eee4; --muted: #c9c2b0;
+    --accent: #cfc3a8; --on-accent: #1b231c; --rule: rgb(241 238 228 / 0.18); --warn: #e3a072;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1b231c; --surface: #243025; --ink: #f1eee4; --muted: #c9c2b0;
+  --accent: #cfc3a8; --on-accent: #1b231c; --rule: rgb(241 238 228 / 0.18); --warn: #e3a072;
+  color-scheme: dark;
+}
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+main { max-width: 44rem; margin: 0 auto; padding-block: 3.5rem 5rem; display: grid; gap: 3rem; }
+header { display: grid; gap: .75rem; }
+.eyebrow { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--muted); }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.6rem, 8vw, 4.25rem); line-height: 1; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.75rem, 4.5vw, 2.4rem); line-height: 1.08; margin: 0; text-wrap: balance; }
+h3 { font-size: 1rem; font-weight: 600; margin: 0; }
+p { margin: 0; max-width: 65ch; }
+.lede { font-size: 1.1875rem; color: var(--muted); }
+section { display: grid; gap: 1.1rem; padding-top: 2rem; border-top: 1px solid var(--rule); }
+ol.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; counter-reset: s; }
+ol.steps > li { counter-increment: s; display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .75rem; }
+ol.steps > li::before {
+  content: counter(s); font-family: var(--font-display); font-size: 1.5rem; line-height: 1.1; color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+ol.steps > li > div { display: grid; gap: .35rem; min-width: 0; }
+b, strong { font-weight: 600; }
+.ui { font-weight: 600; white-space: nowrap; }
+code { font-family: var(--font-mono); font-size: .9em; background: var(--surface); padding: .1em .35em; border-radius: 3px; overflow-wrap: anywhere; }
+.fields { width: 100%; border-collapse: collapse; font-size: .9375rem; }
+.table-wrap { overflow-x: auto; }
+.fields th, .fields td { text-align: left; vertical-align: top; padding: .6rem .75rem .6rem 0; border-bottom: 1px solid var(--rule); }
+.fields th { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.fields td:first-child { font-weight: 600; white-space: nowrap; }
+.req { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--warn); font-weight: 600; margin-left: .35rem; }
+.callout { background: var(--accent); color: var(--on-accent); padding: 1.1rem 1.25rem; border-radius: 4px; display: grid; gap: .4rem; }
+.callout p { max-width: none; }
+.status { display: inline-block; font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: .15rem .5rem; border: 1px solid currentColor; border-radius: 99px; }
+.pending { color: var(--warn); }
+.approved { color: var(--accent); }
+ul.plain { margin: 0; padding-left: 1.1rem; display: grid; gap: .45rem; }
+footer { font-size: .875rem; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 1.5rem; }
+</style>
+
+<main lang="de-CH">
+  <header>
+    <span class="eyebrow">TSTMNY · Content Studio</span>
+    <h1>So verwaltest du die Testimonies auf deiner Website</h1>
+    <p class="lede">Alle Geschichten auf der Website liegen in Sanity Studio. Dort erfasst und bearbeitest du Testimonies und gibst Einsendungen frei. Die Website aktualisiert sich danach von selbst. Code musst du nie anfassen.</p>
+    <p>Das Studio selbst ist auf Englisch. Knöpfe und Felder sind deshalb hier so geschrieben, wie du sie im Studio siehst, zum Beispiel <span class="ui">Publish</span>.</p>
+  </header>
+
+  <section>
+    <h2>Anmelden</h2>
+    <ol class="steps">
+      <li><div><p>Nimm die Einladung von <b>Sanity</b> per E-Mail an und melde dich mit Google, GitHub oder E-Mail an. Verwende jedes Mal dasselbe Login.</p></div></li>
+      <li><div><p>Öffne <code>deinedomain.ch/studio</code> und speichere die Seite als Lesezeichen. Hier liegen alle Inhalte.</p></div></li>
+      <li><div><p>Links siehst du die Inhaltstypen: <span class="ui">Testimony</span>, <span class="ui">Topic</span>, <span class="ui">Sport</span> und <span class="ui">Site Settings</span>. Klicke auf einen Typ, um die Liste zu sehen, und dann auf einen Eintrag, um ihn zu öffnen.</p></div></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Die eine Regel: Approved + Publish</h2>
+    <div class="callout">
+      <p><b>Ein Testimony erscheint nur dann auf der Website, wenn der Status auf Approved steht und du auf Publish geklickt hast.</b></p>
+      <p>Änderungen sind innert etwa einer Minute live. Falls noch nichts zu sehen ist, warte kurz und lade die Seite neu.</p>
+    </div>
+    <p><span class="status pending">Pending</span> heisst: versteckt. Das ist für Entwürfe und alles, was du noch prüfst. <span class="status approved">Approved</span> heisst: bereit für die Öffentlichkeit.</p>
+    <p>Mit <span class="ui">Publish</span> (unten rechts) überträgst du deine Änderungen auf die Live-Version. Bis dahin bleiben sie ein Entwurf, den nur du im Studio siehst.</p>
+  </section>
+
+  <section>
+    <h2>Neues Testimony erfassen</h2>
+    <ol class="steps">
+      <li><div><p>Klicke auf <span class="ui">Testimony</span> und dann oben auf <span class="ui">+</span> bzw. <span class="ui">Create</span>.</p></div></li>
+      <li><div><p>Gib den <b>Title</b> ein und klicke beim Feld <b>Slug</b> auf <span class="ui">Generate</span>. Der Slug wird zur Webadresse der Seite, z.&nbsp;B. <code>/testimony/the-day-i-came-back</code>.</p></div></li>
+      <li><div><p>Fülle die übrigen Felder aus (siehe Tabelle unten). Pflicht sind nur Title, Slug, Name der Person und Status. Am besten wirkt eine Geschichte aber mit Bild, Excerpt und Pull quote.</p></div></li>
+      <li><div><p>Setze <b>Status</b> auf <span class="ui">Approved</span> und klicke auf <span class="ui">Publish</span>.</p></div></li>
+    </ol>
+
+    <div class="table-wrap">
+      <table class="fields">
+        <thead><tr><th>Feld</th><th>Was hineingehört</th></tr></thead>
+        <tbody>
+          <tr><td>Title<span class="req">Pflicht</span></td><td>Die Überschrift der Geschichte.</td></tr>
+          <tr><td>Slug<span class="req">Pflicht</span></td><td>Auf Generate klicken. Nach dem Veröffentlichen besser nicht mehr ändern, sonst funktionieren alte Links nicht mehr.</td></tr>
+          <tr><td>Person → Name<span class="req">Pflicht</span></td><td>Wessen Testimony es ist. Falls vorhanden, ein Foto der Person hinzufügen.</td></tr>
+          <tr><td>Sport</td><td>Aus der Liste wählen. Fehlt die Sportart, zuerst unter Sport erfassen (siehe unten).</td></tr>
+          <tr><td>Location</td><td>Stadt, Land.</td></tr>
+          <tr><td>Excerpt</td><td>Zwei, drei Sätze. Erscheint auf den Vorschaukarten und oben in der Geschichte.</td></tr>
+          <tr><td>Pull quote</td><td>Ein kurzer Satz aus der Geschichte, der gross angezeigt wird.</td></tr>
+          <tr><td>Topics</td><td>Worum es in der Geschichte geht: Faith, Injury, Family … So viele wie passen.</td></tr>
+          <tr><td>Video URL</td><td>Einen YouTube- oder Vimeo-Link einfügen. Optional.</td></tr>
+          <tr><td>Lead image</td><td>Das Hauptbild. Ein grosses Querformat verwenden (mindestens 2400&nbsp;px breit). Unter <b>Alt text</b> kurz beschreiben, was auf dem Bild zu sehen ist (für Screenreader).</td></tr>
+          <tr><td>Story</td><td>Der ganze Text. Für Zwischentitel den Stil <b>H2</b> verwenden, für hervorgehobene Zitate den Stil <b>Quote</b>.</td></tr>
+          <tr><td>Status<span class="req">Pflicht</span></td><td>Pending (versteckt) oder Approved (live).</td></tr>
+          <tr><td>Featured</td><td>Einschalten, um die Geschichte auf der Startseite anzuheften.</td></tr>
+          <tr><td>Published At</td><td>Das Datum, das bei der Geschichte angezeigt wird. Optional.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b>Tipp zu Fotos:</b> Klicke nach dem Hochladen auf das Zuschneide-Symbol und setze den <b>Hotspot</b>. Das ist der Bildteil (meist ein Gesicht), der beim Zuschneiden immer sichtbar bleiben soll.</p>
+  </section>
+
+  <section>
+    <h2>Videos hinzufügen</h2>
+    <p>Videodateien werden nicht direkt ins Studio hochgeladen. Stattdessen:</p>
+    <ol class="steps">
+      <li><div><p>Lade den Clip auf YouTube (auch «nicht gelistet» funktioniert) oder Vimeo hoch.</p></div></li>
+      <li><div><p>Kopiere den Link und füge ihn im Testimony unter <b>Video URL</b> ein.</p></div></li>
+      <li><div><p>Klicke auf <span class="ui">Publish</span>.</p></div></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Eingesandte Geschichten prüfen</h2>
+    <p>Wenn jemand auf der Kontaktseite «Share my testimony» ausfüllt, passieren zwei Dinge: Du bekommst eine E-Mail, und im Studio erscheint ein neues Testimony mit Status <span class="status pending">Pending</span>. Was auf Pending steht, wird nie auf der Website angezeigt.</p>
+    <ol class="steps">
+      <li><div><p>Öffne <span class="ui">Testimony</span> und such den neuen Eintrag.</p></div></li>
+      <li><div><p>Lies ihn und überarbeite den Text. Ergänze Title, Bild, Sport, Topics, Excerpt und Pull quote.</p></div></li>
+      <li><div><p>Wenn alles passt, setze <b>Status</b> auf <span class="ui">Approved</span> und klicke auf <span class="ui">Publish</span>. Passt er nicht, lass ihn auf Pending oder lösche ihn.</p></div></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Sportarten und Themen</h2>
+    <p>Daraus entstehen die Filter auf der Testimonies-Seite. Eine neue Sportart oder ein neues Thema ist ein Eintrag im Studio, keine Änderung an der Website.</p>
+    <ol class="steps">
+      <li><div><p>Klicke auf <span class="ui">Sport</span> (oder <span class="ui">Topic</span>) → <span class="ui">Create</span>.</p></div></li>
+      <li><div><p>Gib den Namen ein, z.&nbsp;B. «Basketball» oder «Grief», klicke beim Slug auf <span class="ui">Generate</span> und dann auf <span class="ui">Publish</span>.</p></div></li>
+      <li><div><p>Öffne ein Testimony und wähle den Eintrag im Feld Sport bzw. Topics aus.</p></div></li>
+    </ol>
+    <p>Ein Thema erscheint als Filter, sobald mindestens eine freigegebene Geschichte es verwendet. Der Sport-Filter erscheint, sobald die Geschichten zwei oder mehr Sportarten abdecken.</p>
+  </section>
+
+  <section>
+    <h2>Bearbeiten, verstecken, löschen</h2>
+    <ul class="plain">
+      <li><b>Tippfehler korrigieren:</b> Testimony öffnen, ändern, auf <span class="ui">Publish</span> klicken.</li>
+      <li><b>Geschichte vorübergehend verstecken:</b> Status zurück auf <span class="ui">Pending</span> setzen und Publish klicken. Sie verschwindet von der Website, bleibt aber gespeichert.</li>
+      <li><b>Endgültig entfernen:</b> Im Menü <span class="ui">⋯</span> neben Publish auf <span class="ui">Delete</span> klicken. Das lässt sich nicht rückgängig machen, Verstecken ist deshalb meist sicherer.</li>
+      <li><b>Fehler rückgängig machen:</b> Das Uhr-Symbol (oben rechts im Dokument) zeigt den Verlauf. Dort kannst du eine frühere Version wiederherstellen.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Was du ignorieren kannst</h2>
+    <ul class="plain">
+      <li>Felder mit <b>(legacy)</b>, etwa <i>Sport (legacy text)</i>, <i>Themes (legacy)</i>, <i>Category (legacy)</i> und <i>Short Description</i>. Sie stammen aus einer älteren Version. Wenn du eine ältere Geschichte bearbeitest, wähle Sport und Topics aus und leere dann das Legacy-Feld.</li>
+      <li><b>Site Settings</b>. Die Texte der Startseite und die Social-Media-Links sind im Moment direkt im Website-Code hinterlegt. Für Änderungen melde dich beim Entwickler.</li>
+      <li>Den Tab <b>Vision</b> im Studio. Das ist ein Werkzeug für Entwickler.</li>
+    </ul>
+  </section>
+
+  <footer>
+    Fragen oder sieht etwas nicht richtig aus? Melde dich bei Isac von EZ CRTV.
+  </footer>
+</main>
